@@ -12,7 +12,8 @@ import {
   Hash,
   X,
   Brain,
-  Minimize2
+  Minimize2,
+  ArrowLeft
 } from 'lucide-react';
 
 const Todos = () => {
@@ -21,11 +22,12 @@ const Todos = () => {
     isFocusMode, 
     setIsFocusMode, 
     focusTodoId, 
-    setFocusTodoId 
+    setFocusTodoId,
+    activeTodoView,
+    setActiveTodoView
   } = useUI();
   
   const [activeCategoryId, setActiveCategoryId] = useState(null);
-  const [showTimer, setShowTimer] = useState(false);
   
   const { 
     todos, 
@@ -50,6 +52,16 @@ const Todos = () => {
     await addTodo(newTodoTitle, activeCategoryId, newTodoDate ? new Date(newTodoDate) : null);
     setNewTodoTitle('');
     setNewTodoDate('');
+  };
+
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    if (!newCategoryName.trim()) return;
+    const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    await addCategory(newCategoryName, randomColor);
+    setNewCategoryName('');
+    setIsAddingCategory(false);
   };
 
   const toggleTodo = async (todo) => {
@@ -143,9 +155,12 @@ const Todos = () => {
 
         <nav className="space-y-1 mb-8">
           <button
-            onClick={() => setActiveCategoryId(null)}
+            onClick={() => {
+              setActiveCategoryId(null);
+              setActiveTodoView('list');
+            }}
             className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-sm transition-colors ${
-              activeCategoryId === null 
+              activeCategoryId === null && activeTodoView === 'list'
                 ? 'bg-paper-200 text-paper-900 shadow-sm' 
                 : 'text-paper-600 hover:bg-paper-100 hover:text-paper-900'
             }`}
@@ -157,9 +172,12 @@ const Todos = () => {
           {categories?.map((cat) => (
             <div key={cat.id} className="group flex items-center">
               <button
-                onClick={() => setActiveCategoryId(cat.id)}
+                onClick={() => {
+                  setActiveCategoryId(cat.id);
+                  setActiveTodoView('list');
+                }}
                 className={`flex-1 flex items-center px-3 py-2 text-sm font-medium rounded-sm transition-colors ${
-                  activeCategoryId === cat.id
+                  activeCategoryId === cat.id && activeTodoView === 'list'
                     ? 'bg-paper-200 text-paper-900 shadow-sm'
                     : 'text-paper-600 hover:bg-paper-100 hover:text-paper-900'
                 }`}
@@ -197,9 +215,9 @@ const Todos = () => {
         <hr className="my-6 border-paper-200" />
 
         <button
-          onClick={() => setShowTimer(!showTimer)}
+          onClick={() => setActiveTodoView('timer')}
           className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-sm transition-colors ${
-            showTimer 
+            activeTodoView === 'timer' 
               ? 'bg-paper-800 text-paper-50 shadow-md' 
               : 'text-paper-600 hover:bg-paper-100'
           }`}
@@ -210,10 +228,17 @@ const Todos = () => {
       </div>
 
       {/* Main Todo List */}
-      <div className="flex-1 bg-paper-50 p-8 md:p-16 overflow-y-auto paper-grain h-screen flex flex-col items-center">
+      <div className="flex-1 bg-paper-50 p-8 md:p-16 overflow-y-auto paper-grain h-screen flex flex-col items-center text-paper-900">
         <div className="max-w-2xl w-full">
-          {showTimer ? (
-            <div className="animate-in fade-in zoom-in duration-500 py-12">
+          {activeTodoView === 'timer' ? (
+            <div className="animate-in fade-in zoom-in duration-500 py-12 flex flex-col items-center">
+              <button 
+                onClick={() => setActiveTodoView('list')}
+                className="mb-8 flex items-center text-sm font-bold uppercase tracking-widest text-paper-400 hover:text-paper-800 transition-colors self-start"
+              >
+                <ArrowLeft size={16} className="mr-2" />
+                Back to Tasks
+              </button>
               <PomodoroTimer />
             </div>
           ) : (
@@ -223,13 +248,13 @@ const Todos = () => {
               </h1>
 
               <form onSubmit={handleAddTodo} className="mb-12 space-y-4">
-                <div className="relative group">
+                <div className="relative group text-paper-900">
                   <input
                     type="text"
                     value={newTodoTitle}
                     onChange={(e) => setNewTodoTitle(e.target.value)}
                     placeholder="What needs to be done?"
-                    className="w-full bg-paper-100 border-b-2 border-paper-200 focus:border-paper-700 outline-none p-4 text-xl transition-all font-serif placeholder-paper-300 pr-12"
+                    className="w-full bg-paper-100 border-b-2 border-paper-200 focus:border-paper-700 outline-none p-4 text-xl transition-all font-serif placeholder-paper-300 pr-12 text-paper-900"
                   />
                   <button
                     type="submit"

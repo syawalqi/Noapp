@@ -14,6 +14,6 @@
 
 ## Phase 3: Focus Session & Timer
 - [x] Task: Build the Pomodoro Timer component with sound/visual alerts. 7d2c6ea
-- [~] Task: Implement 'Focus on Task' mode (Minimalist full-screen view).
-- [ ] Task: Final UI polish for the Todos module using papery design tokens.
-- [ ] Task: Conductor - User Manual Verification 'Focus Session & Timer' (Protocol in workflow.md)
+- [x] Task: Implement 'Focus on Task' mode (Minimalist full-screen view). d696596
+- [x] Task: Final UI polish for the Todos module using papery design tokens. d696596
+- [~] Task: Conductor - User Manual Verification 'Focus Session & Timer' (Protocol in workflow.md)
