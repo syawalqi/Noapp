@@ -12,7 +12,7 @@
 - [x] Task: Implement data validation to prevent corrupt imports. 4dd7ed2
 - [x] Task: Conductor - User Manual Verification 'Import & Restore Logic' (Protocol in workflow.md) 2c38d79
 
-## Phase 3: Settings Module UI
+## Phase 3: Settings Module UI [checkpoint: a61a912]
 - [x] Task: Build the basic Settings view with 'Backup' and 'Restore' sections. 684d86f
 - [x] Task: Integrate export/import actions with UI feedback (loading states, success snackbars). 684d86f
-- [ ] Task: Conductor - User Manual Verification 'Settings Module UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Settings Module UI' (Protocol in workflow.md) a61a912
