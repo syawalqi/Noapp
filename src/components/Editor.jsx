@@ -7,11 +7,15 @@ import { Save, Trash2, Maximize2, Minimize2, Lock, Download, Layers, Eye, Edit3 
 import { downloadFile } from '../utils/file';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import TagInput from './TagInput';
+import { useTags } from '../hooks/useTags';
 
 const Editor = () => {
   const { activeNoteId, setActiveNoteId, isFocusMode, setIsFocusMode, unlockedFolderIds, paperType, setPaperType } = useUI();
   const { updateNote, deleteNote } = useNotes();
+  const { getTagsByIds } = useTags();
   const [isPreview, setIsPreview] = useState(false);
+  const [noteTags, setNoteTags] = useState([]);
   
   // Use live query to get current note and its folder status
   const noteData = useLiveQuery(
@@ -20,13 +24,15 @@ const Editor = () => {
       const note = await db.notes.get(activeNoteId);
       if (!note) return null;
       const folder = await db.folders.get(note.folderId);
-      return { note, folder };
+      const tags = await db.tags.where('id').anyOf(note.tagIds || []).toArray();
+      return { note, folder, tags };
     },
     [activeNoteId, unlockedFolderIds]
   );
 
   const note = noteData?.note;
   const folder = noteData?.folder;
+  const tags = noteData?.tags || [];
   const isLocked = folder?.isLocked && !unlockedFolderIds.includes(folder.id);
 
   const [title, setTitle] = useState('');
@@ -52,6 +58,18 @@ const Editor = () => {
     const newContent = e.target.value;
     setContent(newContent);
     updateNote(activeNoteId, { content: newContent });
+  };
+
+  const handleAddTag = async (tagId) => {
+    const currentTagIds = note.tagIds || [];
+    if (!currentTagIds.includes(tagId)) {
+      await updateNote(activeNoteId, { tagIds: [...currentTagIds, tagId] });
+    }
+  };
+
+  const handleRemoveTag = async (tagId) => {
+    const currentTagIds = note.tagIds || [];
+    await updateNote(activeNoteId, { tagIds: currentTagIds.filter(id => id !== tagId) });
   };
 
   const handleDelete = async () => {
@@ -111,6 +129,11 @@ const Editor = () => {
           <div className="text-xs text-paper-400 font-serif italic mr-2 hidden sm:block">
             {folder?.name}
           </div>
+          <TagInput 
+            activeTagIds={note.tagIds || []} 
+            onAddTag={handleAddTag} 
+            onRemoveTag={handleRemoveTag} 
+          />
           <div className="flex items-center space-x-1 bg-paper-100 p-1 rounded-sm border border-paper-200">
             {paperOptions.map((option) => (
               <button
@@ -166,6 +189,27 @@ const Editor = () => {
           </button>
         </div>
       </div>
+
+      {/* Tags Display */}
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {tags.map(tag => (
+            <span 
+              key={tag.id}
+              className="group flex items-center text-[10px] uppercase font-bold px-2 py-1 rounded-sm border border-paper-200 bg-paper-100/50 transition-all hover:bg-paper-100"
+              style={{ color: tag.color, borderColor: tag.color + '40' }}
+            >
+              {tag.name}
+              <button 
+                onClick={() => handleRemoveTag(tag.id)}
+                className="ml-2 p-0.5 hover:bg-paper-200 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <X size={10} />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
 
       {/* Inputs */}
       <div key={activeNoteId} className="flex-1 flex flex-col max-w-4xl w-full mx-auto relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500">

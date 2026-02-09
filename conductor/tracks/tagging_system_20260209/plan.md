@@ -7,7 +7,7 @@
 - [x] Task: Conductor - User Manual Verification 'Data Layer & Hooks' (Protocol in workflow.md) 14fae65
 
 ## Phase 2: Tagging UI in Editor
-- [ ] Task: Build a Tag Input component for the Editor toolbar.
+- [~] Task: Build a Tag Input component for the Editor toolbar.
 - [ ] Task: Implement autocomplete for existing tags.
 - [ ] Task: Display active tags as removable badges on each note.
 - [ ] Task: Conductor - User Manual Verification 'Tagging UI in Editor' (Protocol in workflow.md)
