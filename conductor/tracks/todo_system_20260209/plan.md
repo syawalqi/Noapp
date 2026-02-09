@@ -2,8 +2,8 @@
 
 ## Phase 1: Data & Basic CRUD
 - [x] Task: Update Dexie schema to include 'todos' and 'todoCategories' tables. aea24d4
-- [~] Task: Create custom React Hook useTodos for task operations.
-- [ ] Task: Build the basic Todo UI (Task List + Input) in the 'Todos' module.
+- [x] Task: Create custom React Hook useTodos for task operations. eb2b8d2
+- [~] Task: Build the basic Todo UI (Task List + Input) in the 'Todos' module.
 - [ ] Task: Conductor - User Manual Verification 'Data & Basic CRUD' (Protocol in workflow.md)
 
 ## Phase 2: Categories & Deadlines

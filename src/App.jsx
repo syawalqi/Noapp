@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import NoteList from './components/NoteList';
 import Editor from './components/Editor';
 import Settings from './components/Settings';
+import Todos from './components/Todos';
 
 function App() {
   const { activeModule, isFocusMode } = useUI();
@@ -20,11 +21,7 @@ function App() {
           </>
         )}
         
-        {activeModule === 'todos' && (
-          <div className="flex-1 flex items-center justify-center text-paper-300">
-            Todo module coming soon
-          </div>
-        )}
+        {activeModule === 'todos' && <Todos />}
 
         {activeModule === 'settings' && <Settings />}
       </main>
