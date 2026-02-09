@@ -6,7 +6,7 @@
 - [x] Task: Conductor - User Manual Verification 'Environment Setup' (Protocol in workflow.md) 3fb9468
 
 ## Phase 2: Data & State Layer
-- [ ] Task: Define Dexie.js database schema for Folders and Notes.
+- [~] Task: Define Dexie.js database schema for Folders and Notes.
 - [ ] Task: Create custom React Hooks for database operations.
 - [ ] Task: Implement Global UI Context for theme and navigation state.
 - [ ] Task: Conductor - User Manual Verification 'Data & State Layer' (Protocol in workflow.md)
