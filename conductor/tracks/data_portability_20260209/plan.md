@@ -1,10 +1,10 @@
 # Implementation Plan: Data Portability
 
-## Phase 1: Export Utilities
+## Phase 1: Export Utilities [checkpoint: 435f6e8]
 - [x] Task: Implement downloadFile utility for browser-based downloads. df9f944
 - [x] Task: Add 'Export as Markdown' button to the Editor toolbar. 30ff559
 - [x] Task: Implement full database serialization logic (Folders + Notes) to JSON. 7610b92
-- [ ] Task: Conductor - User Manual Verification 'Export Utilities' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Export Utilities' (Protocol in workflow.md) 435f6e8
 
 ## Phase 2: Import & Restore Logic
 - [ ] Task: Implement JSON file picker and parsing logic.
