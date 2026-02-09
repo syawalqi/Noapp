@@ -3,7 +3,7 @@
 ## Phase 1: Export Utilities
 - [x] Task: Implement downloadFile utility for browser-based downloads. df9f944
 - [x] Task: Add 'Export as Markdown' button to the Editor toolbar. 30ff559
-- [ ] Task: Implement full database serialization logic (Folders + Notes) to JSON.
+- [~] Task: Implement full database serialization logic (Folders + Notes) to JSON.
 - [ ] Task: Conductor - User Manual Verification 'Export Utilities' (Protocol in workflow.md)
 
 ## Phase 2: Import & Restore Logic
