@@ -11,7 +11,8 @@ import {
   ChevronDown,
   Moon,
   Sun,
-  Lock
+  Lock,
+  Unlock
 } from 'lucide-react';
 
 import LockFolderModal from './LockFolderModal';
