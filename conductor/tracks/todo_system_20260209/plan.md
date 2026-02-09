@@ -1,7 +1,7 @@
 # Implementation Plan: Todo System
 
 ## Phase 1: Data & Basic CRUD
-- [ ] Task: Update Dexie schema to include 'todos' and 'todoCategories' tables.
+- [~] Task: Update Dexie schema to include 'todos' and 'todoCategories' tables.
 - [ ] Task: Create custom React Hook useTodos for task operations.
 - [ ] Task: Build the basic Todo UI (Task List + Input) in the 'Todos' module.
 - [ ] Task: Conductor - User Manual Verification 'Data & Basic CRUD' (Protocol in workflow.md)

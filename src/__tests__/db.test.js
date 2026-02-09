@@ -35,4 +35,22 @@ describe('Database Schema', () => {
     expect(result.title).toBe('Meeting Notes');
     expect(result.folderId).toBe(folderId);
   });
+
+  it('should create a todo category', async () => {
+    const id = await db.todoCategories.add({ name: 'Personal', color: '#ff0000' });
+    const result = await db.todoCategories.get(id);
+    expect(result.name).toBe('Personal');
+  });
+
+  it('should create a todo', async () => {
+    const id = await db.todos.add({ 
+      title: 'Buy Groceries', 
+      isCompleted: false, 
+      categoryId: null, 
+      createdAt: new Date() 
+    });
+    const result = await db.todos.get(id);
+    expect(result.title).toBe('Buy Groceries');
+    expect(result.isCompleted).toBe(false);
+  });
 });
