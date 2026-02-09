@@ -4,10 +4,29 @@ import { db } from '../db';
 export const useTodos = (categoryId = null) => {
   const todos = useLiveQuery(
     async () => {
+      let query;
       if (categoryId) {
-        return await db.todos.where('categoryId').equals(categoryId).toArray();
+        query = db.todos.where('categoryId').equals(categoryId);
+      } else {
+        query = db.todos;
       }
-      return await db.todos.toArray();
+
+      const results = await query.toArray();
+      
+      // Sort: Uncompleted first, then by DueDate (ascending, nulls last), then by CreatedAt (descending)
+      return results.sort((a, b) => {
+        if (a.isCompleted !== b.isCompleted) {
+          return a.isCompleted ? 1 : -1;
+        }
+        
+        if (a.dueDate && b.dueDate) {
+          return new Date(a.dueDate) - new Date(b.dueDate);
+        }
+        if (a.dueDate) return -1;
+        if (b.dueDate) return 1;
+
+        return b.createdAt - a.createdAt;
+      });
     },
     [categoryId]
   );

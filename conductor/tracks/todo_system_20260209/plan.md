@@ -8,8 +8,8 @@
 
 ## Phase 2: Categories & Deadlines
 - [x] Task: Implement Category management (Create/Delete categories). be4b071
-- [~] Task: Add Due Date selection and visual 'Overdue'/'Upcoming' badges.
-- [ ] Task: Implement filtering by category and sorting by date.
+- [x] Task: Add Due Date selection and visual 'Overdue'/'Upcoming' badges. 1b45c35
+- [~] Task: Implement filtering by category and sorting by date.
 - [ ] Task: Conductor - User Manual Verification 'Categories & Deadlines' (Protocol in workflow.md)
 
 ## Phase 3: Focus Session & Timer
