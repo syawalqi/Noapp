@@ -12,8 +12,8 @@
 - [x] Task: Style the Markdown output to match the serif/sans papery aesthetic. 98efa3e
 - [x] Task: Conductor - User Manual Verification 'Markdown Preview' (Protocol in workflow.md) 66d7415
 
-## Phase 3: Aesthetic Refinement
+## Phase 3: Aesthetic Refinement [checkpoint: d3721ec]
 - [x] Task: Add a subtle 'grain' texture overlay to the entire app. 00c31c1
 - [x] Task: Improve transitions between Notes/Folders for a 'smoother' feel. f25ba84
 - [x] Task: Finalize papery shadows and border-radius consistency. 44eae87
-- [ ] Task: Conductor - User Manual Verification 'Aesthetic Refinement' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Aesthetic Refinement' (Protocol in workflow.md) d3721ec
