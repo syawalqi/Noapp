@@ -1,10 +1,23 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
+import { useUI } from '../context/UIContext';
 
 export const useNotes = (folderId = null) => {
+  const { unlockedFolderIds } = useUI();
+
   const notes = useLiveQuery(
-    () => (folderId ? db.notes.where('folderId').equals(folderId).toArray() : db.notes.toArray()),
-    [folderId]
+    async () => {
+      if (!folderId) return await db.notes.toArray();
+
+      // Check if the specific folder is locked
+      const folder = await db.folders.get(folderId);
+      if (folder?.isLocked && !unlockedFolderIds.includes(folderId)) {
+        return []; // Return empty if locked and not session-unlocked
+      }
+
+      return await db.notes.where('folderId').equals(folderId).toArray();
+    },
+    [folderId, unlockedFolderIds]
   );
 
   const addNote = async (title, content, folderId) => {
