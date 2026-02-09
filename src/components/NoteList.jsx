@@ -8,12 +8,17 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
 
 const NoteList = () => {
-  const { activeFolderId, activeNoteId, setActiveNoteId, unlockedFolderIds, unlockFolder } = useUI();
-  const { notes, addNote } = useNotes(activeFolderId);
+  const { activeFolderId, activeNoteId, setActiveNoteId, activeTagId, unlockedFolderIds, unlockFolder } = useUI();
+  const { notes, addNote } = useNotes(activeFolderId, activeTagId);
   
   const activeFolder = useLiveQuery(
     () => (activeFolderId ? db.folders.get(activeFolderId) : null),
     [activeFolderId]
+  );
+
+  const activeTag = useLiveQuery(
+    () => (activeTagId ? db.tags.get(activeTagId) : null),
+    [activeTagId]
   );
 
   const isLocked = activeFolder?.isLocked && !unlockedFolderIds.includes(activeFolderId);
@@ -39,27 +44,31 @@ const NoteList = () => {
   return (
     <div className="w-80 h-screen bg-transparent border-r border-paper-200 flex flex-col">
       <div className="p-4 border-b border-paper-200 flex justify-between items-center">
-        <h2 className="text-sm font-semibold text-paper-700 uppercase tracking-wider">Notes</h2>
-        <button 
-          onClick={handleAddNote}
-          className="p-1 hover:bg-paper-200 rounded-sm transition-colors"
-          title="New Note"
-        >
-          <Plus className="h-5 w-5 text-paper-700" />
-        </button>
+        <h2 className="text-sm font-semibold text-paper-700 uppercase tracking-wider truncate mr-4">
+          {activeTag ? `# ${activeTag.name}` : (activeFolder?.name || 'Notes')}
+        </h2>
+        {!activeTagId && (
+          <button 
+            onClick={handleAddNote}
+            className="p-1 hover:bg-paper-200 rounded-sm transition-colors shrink-0"
+            title="New Note"
+          >
+            <Plus className="h-5 w-5 text-paper-700" />
+          </button>
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto">
-        {!activeFolderId ? (
+        {!activeFolderId && !activeTagId ? (
           <div className="p-8 text-center text-paper-300 italic text-sm animate-in fade-in duration-500">
-            Select a folder to see notes
+            Select a folder or tag to see notes
           </div>
         ) : notes?.length === 0 ? (
           <div className="p-8 text-center text-paper-300 italic text-sm animate-in fade-in duration-500">
-            No notes in this folder
+            {activeTagId ? 'No notes with this tag' : 'No notes in this folder'}
           </div>
         ) : (
-          <div className="divide-y divide-paper-100 animate-in fade-in slide-in-from-left-2 duration-300">
+          <div key={activeFolderId || activeTagId} className="divide-y divide-paper-100 animate-in fade-in slide-in-from-left-2 duration-300">
             {notes?.map((note) => (
               <button
                 key={note.id}

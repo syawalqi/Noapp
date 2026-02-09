@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useUI } from '../context/UIContext';
 import { useFolders } from '../hooks/useFolders';
+import { useTags } from '../hooks/useTags';
 import { 
   FileText, 
   CheckSquare, 
@@ -12,7 +13,9 @@ import {
   Moon,
   Sun,
   Lock,
-  Unlock
+  Unlock,
+  Tag,
+  Hash
 } from 'lucide-react';
 
 import LockFolderModal from './LockFolderModal';
@@ -23,16 +26,29 @@ const Sidebar = () => {
     setActiveModule, 
     activeFolderId, 
     setActiveFolderId,
+    activeTagId,
+    setActiveTagId,
     unlockedFolderIds,
     theme,
     toggleTheme
   } = useUI();
   const { folders, addFolder } = useFolders();
+  const { tags } = useTags();
   const [lockingFolder, setLockingFolder] = useState(null);
 
   const handleAddFolder = () => {
     const name = prompt('Folder Name:');
     if (name) addFolder(name);
+  };
+
+  const handleSelectTag = (tagId) => {
+    setActiveFolderId(null);
+    setActiveTagId(tagId);
+  };
+
+  const handleSelectFolder = (folderId) => {
+    setActiveTagId(null);
+    setActiveFolderId(folderId);
   };
 
   const navItems = [
@@ -74,54 +90,83 @@ const Sidebar = () => {
 
       {/* Folders Section (Only for Notes module) */}
       {activeModule === 'notes' && (
-        <div className="flex-1 overflow-y-auto px-4">
-          <div className="flex items-center justify-between mb-2 px-3">
-            <span className="text-xs font-semibold text-paper-700 uppercase tracking-wider">Folders</span>
-            <button 
-              onClick={handleAddFolder}
-              className="p-1 hover:bg-paper-200 rounded-full transition-colors"
-              title="New Folder"
-            >
-              <Plus className="h-4 w-4 text-paper-700" />
-            </button>
+        <div className="flex-1 overflow-y-auto px-4 space-y-8">
+          {/* Folders */}
+          <div>
+            <div className="flex items-center justify-between mb-2 px-3">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-paper-400">Folders</span>
+              <button 
+                onClick={handleAddFolder}
+                className="p-1 hover:bg-paper-200 rounded-full transition-colors text-paper-600"
+                title="New Folder"
+              >
+                <Plus className="h-3 w-3" />
+              </button>
+            </div>
+            
+            <div className="space-y-1">
+              {folders?.map((folder) => {
+                const isLocked = folder.isLocked && !unlockedFolderIds.includes(folder.id);
+                const isUnlocked = folder.isLocked && unlockedFolderIds.includes(folder.id);
+                
+                return (
+                  <div key={folder.id} className="group relative">
+                    <button
+                      onClick={() => handleSelectFolder(folder.id)}
+                      className={`w-full flex items-center px-3 py-1.5 text-sm rounded-sm transition-colors ${
+                        activeFolderId === folder.id
+                          ? 'bg-paper-200 text-paper-900 shadow-sm'
+                          : 'text-paper-600 hover:bg-paper-100 hover:text-paper-900'
+                      }`}
+                    >
+                      <Folder className="mr-3 h-4 w-4" />
+                      <span className="truncate flex-1 text-left">{folder.name}</span>
+                      {isLocked && <Lock className="h-3 w-3 text-paper-400" />}
+                      {isUnlocked && <Unlock className="h-3 w-3 text-green-600" />}
+                    </button>
+                    {!folder.isLocked && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setLockingFolder(folder);
+                        }}
+                        className="absolute right-2 top-1.5 p-0.5 opacity-0 group-hover:opacity-100 hover:bg-paper-300 rounded transition-all"
+                        title="Lock Folder"
+                      >
+                        <Lock className="h-3 w-3 text-paper-700" />
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          
-          <div className="space-y-1">
-            {folders?.map((folder) => {
-              const isLocked = folder.isLocked && !unlockedFolderIds.includes(folder.id);
-              const isUnlocked = folder.isLocked && unlockedFolderIds.includes(folder.id);
-              
-              return (
-                <div key={folder.id} className="group relative">
+
+          {/* Tags */}
+          {tags?.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-2 px-3">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-paper-400">Tags</span>
+              </div>
+              <div className="space-y-1">
+                {tags.map((tag) => (
                   <button
-                    onClick={() => setActiveFolderId(folder.id)}
+                    key={tag.id}
+                    onClick={() => handleSelectTag(tag.id)}
                     className={`w-full flex items-center px-3 py-1.5 text-sm rounded-sm transition-colors ${
-                      activeFolderId === folder.id
-                        ? 'bg-paper-300 text-paper-900'
-                        : 'text-paper-700 hover:bg-paper-200'
+                      activeTagId === tag.id
+                        ? 'bg-paper-200 text-paper-900 shadow-sm'
+                        : 'text-paper-600 hover:bg-paper-100 hover:text-paper-900'
                     }`}
                   >
-                    <Folder className="mr-2 h-4 w-4" />
-                    <span className="truncate flex-1 text-left">{folder.name}</span>
-                    {isLocked && <Lock className="h-3 w-3 text-paper-400" />}
-                    {isUnlocked && <Unlock className="h-3 w-3 text-green-600" />}
+                    <Hash className="mr-3 h-4 w-4 opacity-40" />
+                    <span className="truncate flex-1 text-left">{tag.name}</span>
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: tag.color }} />
                   </button>
-                  {!folder.isLocked && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLockingFolder(folder);
-                      }}
-                      className="absolute right-2 top-1.5 p-0.5 opacity-0 group-hover:opacity-100 hover:bg-paper-300 rounded transition-all"
-                      title="Lock Folder"
-                    >
-                      <Lock className="h-3 w-3 text-paper-700" />
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

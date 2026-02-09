@@ -6,6 +6,7 @@ export const UIProvider = ({ children }) => {
   const [activeModule, setActiveModule] = useState('notes'); // notes, todos, settings
   const [activeFolderId, setActiveFolderId] = useState(null);
   const [activeNoteId, setActiveNoteId] = useState(null);
+  const [activeTagId, setActiveTagId] = useState(null);
   const [activeTodoView, setActiveTodoView] = useState('list'); // list, timer
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [focusTodoId, setFocusTodoId] = useState(null);
@@ -121,6 +122,8 @@ export const UIProvider = ({ children }) => {
     setActiveFolderId,
     activeNoteId,
     setActiveNoteId,
+    activeTagId,
+    setActiveTagId,
     activeTodoView,
     setActiveTodoView,
     isFocusMode,
