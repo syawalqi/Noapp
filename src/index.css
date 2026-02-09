@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+:root {
   --color-paper-50: #fdfcfb;
   --color-paper-100: #f9f7f4;
   --color-paper-200: #f3f0eb;
@@ -8,6 +8,26 @@
   --color-paper-700: #4a453e;
   --color-paper-800: #2d2a26;
   --color-paper-900: #1a1816;
+}
+
+.dark {
+  --color-paper-50: #1a1816;
+  --color-paper-100: #23211e;
+  --color-paper-200: #2d2a26;
+  --color-paper-300: #4a453e;
+  --color-paper-700: #e7e2d8;
+  --color-paper-800: #f3f0eb;
+  --color-paper-900: #fdfcfb;
+}
+
+@theme {
+  --color-paper-50: var(--color-paper-50);
+  --color-paper-100: var(--color-paper-100);
+  --color-paper-200: var(--color-paper-200);
+  --color-paper-300: var(--color-paper-300);
+  --color-paper-700: var(--color-paper-700);
+  --color-paper-800: var(--color-paper-800);
+  --color-paper-900: var(--color-paper-900);
 
   --font-serif: "Ibarra Real Nova", serif;
   --font-sans: "Inter", sans-serif;
@@ -15,7 +35,7 @@
 
 @layer base {
   html {
-    @apply antialiased text-paper-900 bg-paper-100;
+    @apply antialiased text-paper-900 bg-paper-100 transition-colors duration-300;
   }
 
   body {
