@@ -9,8 +9,8 @@
 ## Phase 2: Categories & Deadlines
 - [x] Task: Implement Category management (Create/Delete categories). be4b071
 - [x] Task: Add Due Date selection and visual 'Overdue'/'Upcoming' badges. 1b45c35
-- [~] Task: Implement filtering by category and sorting by date.
-- [ ] Task: Conductor - User Manual Verification 'Categories & Deadlines' (Protocol in workflow.md)
+- [x] Task: Implement filtering by category and sorting by date. 446d3d1
+- [~] Task: Conductor - User Manual Verification 'Categories & Deadlines' (Protocol in workflow.md)
 
 ## Phase 3: Focus Session & Timer
 - [ ] Task: Build the Pomodoro Timer component with sound/visual alerts.
