@@ -13,7 +13,7 @@
 - [x] Task: Conductor - User Manual Verification 'Categories & Deadlines' (Protocol in workflow.md) 06f8315
 
 ## Phase 3: Focus Session & Timer
-- [ ] Task: Build the Pomodoro Timer component with sound/visual alerts.
+- [~] Task: Build the Pomodoro Timer component with sound/visual alerts.
 - [ ] Task: Implement 'Focus Mode' for a specific task (Minimalist full-screen view).
 - [ ] Task: Final UI polish for the Todos module using papery design tokens.
 - [ ] Task: Conductor - User Manual Verification 'Focus Session & Timer' (Protocol in workflow.md)

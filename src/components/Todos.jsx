@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTodos } from '../hooks/useTodos';
 import { useUI } from '../context/UIContext';
+import PomodoroTimer from './PomodoroTimer';
 import { 
   CheckCircle2, 
   Circle, 
@@ -8,13 +9,13 @@ import {
   Plus, 
   Timer, 
   Calendar,
-  Tag,
   Hash,
   X
 } from 'lucide-react';
 
 const Todos = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(null);
+  const [showTimer, setShowTimer] = useState(false);
   const { 
     todos, 
     categories, 
@@ -134,106 +135,128 @@ const Todos = () => {
             />
           </form>
         )}
+
+        <hr className="my-6 border-paper-200" />
+
+        <button
+          onClick={() => setShowTimer(!showTimer)}
+          className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-sm transition-colors ${
+            showTimer 
+              ? 'bg-paper-800 text-paper-50 shadow-md' 
+              : 'text-paper-600 hover:bg-paper-100'
+          }`}
+        >
+          <Timer className="mr-3 h-4 w-4" />
+          Focus Timer
+        </button>
       </div>
 
       {/* Main Todo List */}
-      <div className="flex-1 bg-paper-50 p-8 md:p-16 overflow-y-auto paper-grain h-screen">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl font-serif font-bold text-paper-900 mb-8">
-            {activeCategoryId ? categories?.find(c => c.id === activeCategoryId)?.name : 'Todos'}
-          </h1>
-
-          <form onSubmit={handleAddTodo} className="mb-12 space-y-4">
-            <div className="relative group">
-              <input
-                type="text"
-                value={newTodoTitle}
-                onChange={(e) => setNewTodoTitle(e.target.value)}
-                placeholder="What needs to be done?"
-                className="w-full bg-paper-100 border-b-2 border-paper-200 focus:border-paper-700 outline-none p-4 text-xl transition-all font-serif placeholder-paper-300 pr-12"
-              />
-              <button
-                type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-paper-400 hover:text-paper-800 transition-colors"
-              >
-                <Plus size={24} />
-              </button>
+      <div className="flex-1 bg-paper-50 p-8 md:p-16 overflow-y-auto paper-grain h-screen flex flex-col items-center">
+        <div className="max-w-2xl w-full">
+          {showTimer ? (
+            <div className="animate-in fade-in zoom-in duration-500 py-12">
+              <PomodoroTimer />
             </div>
-            <div className="flex items-center space-x-4 animate-in fade-in duration-700">
-              <div className="flex items-center bg-paper-100 rounded-sm px-3 py-1.5 border border-paper-200">
-                <Calendar size={14} className="text-paper-400 mr-2" />
-                <input 
-                  type="date"
-                  value={newTodoDate}
-                  onChange={(e) => setNewTodoDate(e.target.value)}
-                  className="bg-transparent text-xs font-bold uppercase tracking-wider text-paper-600 outline-none cursor-pointer"
-                />
-              </div>
-            </div>
-          </form>
+          ) : (
+            <>
+              <h1 className="text-4xl font-serif font-bold text-paper-900 mb-8">
+                {activeCategoryId ? categories?.find(c => c.id === activeCategoryId)?.name : 'Todos'}
+              </h1>
 
-          <div className="space-y-3">
-            {todos?.length === 0 ? (
-              <div className="text-center py-12 text-paper-300 italic font-serif animate-in fade-in duration-500">
-                No tasks here. You're all caught up!
-              </div>
-            ) : (
-              todos?.sort((a, b) => a.isCompleted - b.isCompleted || b.createdAt - a.createdAt).map((todo) => {
-                const category = categories?.find(c => c.id === todo.categoryId);
-                const badge = getDueDateBadge(todo.dueDate);
-                return (
-                  <div 
-                    key={todo.id}
-                    className="papery-card-interactive group flex items-center p-4 animate-in fade-in slide-in-from-bottom-2 duration-300"
+              <form onSubmit={handleAddTodo} className="mb-12 space-y-4">
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={newTodoTitle}
+                    onChange={(e) => setNewTodoTitle(e.target.value)}
+                    placeholder="What needs to be done?"
+                    className="w-full bg-paper-100 border-b-2 border-paper-200 focus:border-paper-700 outline-none p-4 text-xl transition-all font-serif placeholder-paper-300 pr-12"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-paper-400 hover:text-paper-800 transition-colors"
                   >
-                    <button
-                      onClick={() => toggleTodo(todo)}
-                      className={`mr-4 transition-colors ${
-                        todo.isCompleted ? 'text-green-600' : 'text-paper-300 hover:text-paper-600'
-                      }`}
-                    >
-                      {todo.isCompleted ? <CheckCircle2 size={24} /> : <Circle size={24} />}
-                    </button>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
-                        <span className={`text-lg transition-all truncate ${
-                          todo.isCompleted ? 'text-paper-300 line-through' : 'text-paper-800'
-                        }`}>
-                          {todo.title}
-                        </span>
-                        <div className="flex items-center space-x-2 mt-1 sm:mt-0">
-                          {category && !activeCategoryId && (
-                            <span 
-                              className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-sm opacity-60"
-                              style={{ backgroundColor: category.color + '20', color: category.color }}
-                            >
-                              {category.name}
+                    <Plus size={24} />
+                  </button>
+                </div>
+                <div className="flex items-center space-x-4 animate-in fade-in duration-700">
+                  <div className="flex items-center bg-paper-100 rounded-sm px-3 py-1.5 border border-paper-200">
+                    <Calendar size={14} className="text-paper-400 mr-2" />
+                    <input 
+                      type="date"
+                      value={newTodoDate}
+                      onChange={(e) => setNewTodoDate(e.target.value)}
+                      className="bg-transparent text-xs font-bold uppercase tracking-wider text-paper-600 outline-none cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </form>
+
+              <div className="space-y-3">
+                {todos?.length === 0 ? (
+                  <div className="text-center py-12 text-paper-300 italic font-serif animate-in fade-in duration-500">
+                    No tasks here. You're all caught up!
+                  </div>
+                ) : (
+                  todos?.map((todo) => {
+                    const category = categories?.find(c => c.id === todo.categoryId);
+                    const badge = getDueDateBadge(todo.dueDate);
+                    return (
+                      <div 
+                        key={todo.id}
+                        className="papery-card-interactive group flex items-center p-4 animate-in fade-in slide-in-from-bottom-2 duration-300"
+                      >
+                        <button
+                          onClick={() => toggleTodo(todo)}
+                          className={`mr-4 transition-colors ${
+                            todo.isCompleted ? 'text-green-600' : 'text-paper-300 hover:text-paper-600'
+                          }`}
+                        >
+                          {todo.isCompleted ? <CheckCircle2 size={24} /> : <Circle size={24} />}
+                        </button>
+                        
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
+                            <span className={`text-lg transition-all truncate ${
+                              todo.isCompleted ? 'text-paper-300 line-through' : 'text-paper-800'
+                            }`}>
+                              {todo.title}
                             </span>
-                          )}
-                          {badge && !todo.isCompleted && (
-                            <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-sm ${badge.color}`}>
-                              {badge.label}
-                            </span>
-                          )}
+                            <div className="flex items-center space-x-2 mt-1 sm:mt-0">
+                              {category && !activeCategoryId && (
+                                <span 
+                                  className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-sm opacity-60"
+                                  style={{ backgroundColor: category.color + '20', color: category.color }}
+                                >
+                                  {category.name}
+                                </span>
+                              )}
+                              {badge && !todo.isCompleted && (
+                                <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-sm ${badge.color}`}>
+                                  {badge.label}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity ml-4">
+                          <button
+                            onClick={() => deleteTodo(todo.id)}
+                            className="p-2 text-paper-300 hover:text-red-600 transition-colors"
+                            title="Delete Task"
+                          >
+                            <Trash2 size={18} />
+                          </button>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity ml-4">
-                      <button
-                        onClick={() => deleteTodo(todo.id)}
-                        className="p-2 text-paper-300 hover:text-red-600 transition-colors"
-                        title="Delete Task"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
+                    );
+                  })
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
