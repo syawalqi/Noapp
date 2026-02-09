@@ -14,8 +14,8 @@ describe('NoteList Component', () => {
     );
   };
 
-  it('should show prompt when no folder is selected', () => {
+  it('should show prompt when no folder or tag is selected', () => {
     renderNoteList();
-    expect(screen.getByText('Select a folder to see notes')).toBeInTheDocument();
+    expect(screen.getByText(/Select a folder or tag to see notes/i)).toBeInTheDocument();
   });
 });
