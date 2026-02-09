@@ -6,11 +6,11 @@
 - [x] Task: Persist the selected paper type in UIContext. b038e35
 - [x] Task: Conductor - User Manual Verification 'Background Patterns' (Protocol in workflow.md) 0f7e842
 
-## Phase 2: Markdown Preview
+## Phase 2: Markdown Preview [checkpoint: 66d7415]
 - [x] Task: Install eact-markdown and related plugins (e.g., emark-gfm). c2784d8
 - [x] Task: Implement a toggleable Preview mode in the Editor component. d658bde
 - [x] Task: Style the Markdown output to match the serif/sans papery aesthetic. 98efa3e
-- [ ] Task: Conductor - User Manual Verification 'Markdown Preview' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Markdown Preview' (Protocol in workflow.md) 66d7415
 
 ## Phase 3: Aesthetic Refinement
 - [ ] Task: Add a subtle 'grain' texture overlay to the entire app.
