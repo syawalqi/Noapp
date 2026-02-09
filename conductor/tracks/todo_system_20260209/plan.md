@@ -12,8 +12,8 @@
 - [x] Task: Implement filtering by category and sorting by date. 446d3d1
 - [x] Task: Conductor - User Manual Verification 'Categories & Deadlines' (Protocol in workflow.md) 06f8315
 
-## Phase 3: Focus Session & Timer
+## Phase 3: Focus Session & Timer [checkpoint: 01e4937]
 - [x] Task: Build the Pomodoro Timer component with sound/visual alerts. 7d2c6ea
 - [x] Task: Implement 'Focus on Task' mode (Minimalist full-screen view). d696596
 - [x] Task: Final UI polish for the Todos module using papery design tokens. d696596
-- [~] Task: Conductor - User Manual Verification 'Focus Session & Timer' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Focus Session & Timer' (Protocol in workflow.md) 01e4937
