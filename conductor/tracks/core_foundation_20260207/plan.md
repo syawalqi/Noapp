@@ -2,7 +2,7 @@
 
 ## Phase 1: Environment Setup
 - [x] Task: Initialize Vite project and install dependencies (React, Tailwind, Lucide-react, Dexie.js). 1a17829
-- [ ] Task: Configure Tailwind CSS with custom 'papery' theme tokens (creamy whites, soft greys).
+- [~] Task: Configure Tailwind CSS with custom 'papery' theme tokens (creamy whites, soft greys).
 - [ ] Task: Conductor - User Manual Verification 'Environment Setup' (Protocol in workflow.md)
 
 ## Phase 2: Data & State Layer
