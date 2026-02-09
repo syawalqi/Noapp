@@ -53,4 +53,21 @@ describe('Database Schema', () => {
     expect(result.title).toBe('Buy Groceries');
     expect(result.isCompleted).toBe(false);
   });
+
+  it('should create a tag and link it to a note', async () => {
+    const tagId = await db.tags.add({ name: 'Urgent', color: '#ff0000' });
+    const noteId = await db.notes.add({ 
+      title: 'Emergency Note', 
+      tagIds: [tagId],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    const note = await db.notes.get(noteId);
+    expect(note.tagIds).toContain(tagId);
+
+    const notesWithTag = await db.notes.where('tagIds').equals(tagId).toArray();
+    expect(notesWithTag.length).toBe(1);
+    expect(notesWithTag[0].title).toBe('Emergency Note');
+  });
 });

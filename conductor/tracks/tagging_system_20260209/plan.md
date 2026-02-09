@@ -1,7 +1,7 @@
 # Implementation Plan: Tagging System
 
 ## Phase 1: Data Layer & Hooks
-- [ ] Task: Update Dexie schema to include 'tags' table and update 'notes' table.
+- [~] Task: Update Dexie schema to include 'tags' table and update 'notes' table.
 - [ ] Task: Create custom React Hook \useTags\ for tag management.
 - [ ] Task: Update \useNotes\ hook to support filtering by tag.
 - [ ] Task: Conductor - User Manual Verification 'Data Layer & Hooks' (Protocol in workflow.md)
