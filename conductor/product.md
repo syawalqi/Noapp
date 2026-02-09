@@ -14,7 +14,7 @@ An offline-first, privacy-focused productivity suite designed for individuals wh
 - **Privacy-Centric Security:** Individual folder locking with unique passwords, utilizing client-side hashing and encryption.
 - **Integrated Todo System:** Task management with due dates, browser notifications, and productivity cues.
 - **Focus Tools:** Built-in Pomodoro timer and dedicated Focus Mode to eliminate distractions.
-- **Data Sovereignty:** Manual JSON export/import for cross-device migration and periodic backup prompts to prevent data loss.
+- **Data Portability:** Individual note export as Markdown and full database backup/restore via JSON for cross-device migration.
 
 ## Design Philosophy
 - **"Papery and Calm":** A soft, modern Material Design aesthetic that prioritizes readability and ease of use.
