@@ -1,10 +1,10 @@
 # Implementation Plan: UI Polish
 
-## Phase 1: Background Patterns
+## Phase 1: Background Patterns [checkpoint: 0f7e842]
 - [x] Task: Create CSS utility classes for Lined, Grid, and Dotted backgrounds in index.css. 056506d
-- [~] Task: Add a 'Paper Type' selector to the Editor toolbar.
-- [~] Task: Persist the selected paper type in UIContext.
-- [ ] Task: Conductor - User Manual Verification 'Background Patterns' (Protocol in workflow.md)
+- [x] Task: Add a 'Paper Type' selector to the Editor toolbar. b038e35
+- [x] Task: Persist the selected paper type in UIContext. b038e35
+- [x] Task: Conductor - User Manual Verification 'Background Patterns' (Protocol in workflow.md) 0f7e842
 
 ## Phase 2: Markdown Preview
 - [ ] Task: Install eact-markdown and related plugins (e.g., emark-gfm).
