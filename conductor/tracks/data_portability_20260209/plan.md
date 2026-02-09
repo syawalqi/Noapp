@@ -1,7 +1,7 @@
 # Implementation Plan: Data Portability
 
 ## Phase 1: Export Utilities
-- [~] Task: Implement downloadFile utility for browser-based downloads.
+- [x] Task: Implement downloadFile utility for browser-based downloads. df9f944
 - [ ] Task: Add 'Export as Markdown' button to the Editor toolbar.
 - [ ] Task: Implement full database serialization logic (Folders + Notes) to JSON.
 - [ ] Task: Conductor - User Manual Verification 'Export Utilities' (Protocol in workflow.md)
