@@ -3,7 +3,7 @@ import { useUI } from '../context/UIContext';
 import { useNotes } from '../hooks/useNotes';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Save, Trash2, Maximize2, Minimize2, Lock, Download, Layers, Eye, Edit3 } from 'lucide-react';
+import { Save, Trash2, Maximize2, Minimize2, Lock, Download, Layers, Eye, Edit3, X } from 'lucide-react';
 import { downloadFile } from '../utils/file';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
