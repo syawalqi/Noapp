@@ -8,7 +8,7 @@
 
 ## Phase 2: Import & Restore Logic
 - [x] Task: Implement JSON file picker and parsing logic. 17ffe0b
-- [ ] Task: Create database restoration service (clear existing + bulk add).
+- [x] Task: Create database restoration service (clear existing + bulk add). 7610b92
 - [ ] Task: Implement data validation to prevent corrupt imports.
 - [ ] Task: Conductor - User Manual Verification 'Import & Restore Logic' (Protocol in workflow.md)
 
