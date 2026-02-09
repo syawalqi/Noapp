@@ -3,6 +3,7 @@ import { useUI } from './context/UIContext';
 import Sidebar from './components/Sidebar';
 import NoteList from './components/NoteList';
 import Editor from './components/Editor';
+import Settings from './components/Settings';
 
 function App() {
   const { activeModule, isFocusMode } = useUI();
@@ -25,11 +26,7 @@ function App() {
           </div>
         )}
 
-        {activeModule === 'settings' && (
-          <div className="flex-1 flex items-center justify-center text-paper-300">
-            Settings module coming soon
-          </div>
-        )}
+        {activeModule === 'settings' && <Settings />}
       </main>
     </div>
   );

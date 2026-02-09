@@ -13,6 +13,6 @@
 - [x] Task: Conductor - User Manual Verification 'Import & Restore Logic' (Protocol in workflow.md) 2c38d79
 
 ## Phase 3: Settings Module UI
-- [ ] Task: Build the basic Settings view with 'Backup' and 'Restore' sections.
+- [~] Task: Build the basic Settings view with 'Backup' and 'Restore' sections.
 - [ ] Task: Integrate export/import actions with UI feedback (loading states, success snackbars).
 - [ ] Task: Conductor - User Manual Verification 'Settings Module UI' (Protocol in workflow.md)
