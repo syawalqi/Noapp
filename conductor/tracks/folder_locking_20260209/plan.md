@@ -7,7 +7,7 @@
 
 ## Phase 2: Lock/Unlock UI & State
 - [x] Task: Update UI Context to manage temporarily unlocked folders. 8f37f91
-- [ ] Task: Create a 'Lock Folder' modal for password setup.
+- [~] Task: Create a 'Lock Folder' modal for password setup.
 - [ ] Task: Create an 'Unlock' overlay/dialog for protected folders.
 - [ ] Task: Conductor - User Manual Verification 'Lock/Unlock UI & State' (Protocol in workflow.md)
 

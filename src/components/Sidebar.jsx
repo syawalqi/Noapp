@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useUI } from '../context/UIContext';
 import { useFolders } from '../hooks/useFolders';
 import { 
@@ -10,8 +10,11 @@ import {
   ChevronRight, 
   ChevronDown,
   Moon,
-  Sun
+  Sun,
+  Lock
 } from 'lucide-react';
+
+import LockFolderModal from './LockFolderModal';
 
 const Sidebar = () => {
   const { 
@@ -23,6 +26,7 @@ const Sidebar = () => {
     toggleTheme
   } = useUI();
   const { folders, addFolder } = useFolders();
+  const [lockingFolder, setLockingFolder] = useState(null);
 
   const handleAddFolder = () => {
     const name = prompt('Folder Name:');
@@ -82,18 +86,32 @@ const Sidebar = () => {
           
           <div className="space-y-1">
             {folders?.map((folder) => (
-              <button
-                key={folder.id}
-                onClick={() => setActiveFolderId(folder.id)}
-                className={`w-full flex items-center px-3 py-1.5 text-sm rounded-sm transition-colors ${
-                  activeFolderId === folder.id
-                    ? 'bg-paper-300 text-paper-900'
-                    : 'text-paper-700 hover:bg-paper-200'
-                }`}
-              >
-                <Folder className="mr-2 h-4 w-4" />
-                <span className="truncate">{folder.name}</span>
-              </button>
+              <div key={folder.id} className="group relative">
+                <button
+                  onClick={() => setActiveFolderId(folder.id)}
+                  className={`w-full flex items-center px-3 py-1.5 text-sm rounded-sm transition-colors ${
+                    activeFolderId === folder.id
+                      ? 'bg-paper-300 text-paper-900'
+                      : 'text-paper-700 hover:bg-paper-200'
+                  }`}
+                >
+                  <Folder className="mr-2 h-4 w-4" />
+                  <span className="truncate flex-1 text-left">{folder.name}</span>
+                  {folder.isLocked && <Lock className="h-3 w-3 text-paper-400" />}
+                </button>
+                {!folder.isLocked && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLockingFolder(folder);
+                    }}
+                    className="absolute right-2 top-1.5 p-0.5 opacity-0 group-hover:opacity-100 hover:bg-paper-300 rounded transition-all"
+                    title="Lock Folder"
+                  >
+                    <Lock className="h-3 w-3 text-paper-700" />
+                  </button>
+                )}
+              </div>
             ))}
           </div>
         </div>
@@ -109,6 +127,14 @@ const Sidebar = () => {
           {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
         </button>
       </div>
+
+      {lockingFolder && (
+        <LockFolderModal 
+          folder={lockingFolder} 
+          onClose={() => setLockingFolder(null)}
+          onLocked={() => setLockingFolder(null)}
+        />
+      )}
     </div>
   );
 };
