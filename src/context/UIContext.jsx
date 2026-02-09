@@ -8,6 +8,9 @@ export const UIProvider = ({ children }) => {
   const [activeNoteId, setActiveNoteId] = useState(null);
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [unlockedFolderIds, setUnlockedFolderIds] = useState([]);
+  const [paperType, setPaperType] = useState(() => {
+    return localStorage.getItem('paperType') || 'plain';
+  });
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'light';
   });
@@ -20,6 +23,10 @@ export const UIProvider = ({ children }) => {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('paperType', paperType);
+  }, [paperType]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
@@ -40,6 +47,8 @@ export const UIProvider = ({ children }) => {
     setIsFocusMode,
     unlockedFolderIds,
     unlockFolder,
+    paperType,
+    setPaperType,
     theme,
     toggleTheme,
   };

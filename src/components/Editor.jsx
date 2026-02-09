@@ -3,11 +3,11 @@ import { useUI } from '../context/UIContext';
 import { useNotes } from '../hooks/useNotes';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Save, Trash2, Maximize2, Minimize2, Lock, Download } from 'lucide-react';
+import { Save, Trash2, Maximize2, Minimize2, Lock, Download, Layers } from 'lucide-react';
 import { downloadFile } from '../utils/file';
 
 const Editor = () => {
-  const { activeNoteId, setActiveNoteId, isFocusMode, setIsFocusMode, unlockedFolderIds } = useUI();
+  const { activeNoteId, setActiveNoteId, isFocusMode, setIsFocusMode, unlockedFolderIds, paperType, setPaperType } = useUI();
   const { updateNote, deleteNote } = useNotes();
   
   // Use live query to get current note and its folder status
@@ -86,12 +86,34 @@ const Editor = () => {
     );
   }
 
+  const paperClasses = {
+    plain: '',
+    lined: 'paper-lined',
+    grid: 'paper-grid',
+    dotted: 'paper-dotted'
+  };
+
   return (
     <div className={`flex-1 flex flex-col bg-paper-50 transition-all duration-500 ${isFocusMode ? 'px-4 md:px-32 lg:px-64' : 'px-8'}`}>
       {/* Editor Toolbar */}
       <div className="py-4 flex justify-between items-center border-b border-paper-100 mb-8">
-        <div className="flex items-center space-x-4 text-xs text-paper-400 font-serif italic">
-          {folder?.name}
+        <div className="flex items-center space-x-4">
+          <div className="text-xs text-paper-400 font-serif italic mr-4">
+            {folder?.name}
+          </div>
+          <div className="flex items-center bg-paper-100 rounded-sm p-1">
+            <Layers size={14} className="text-paper-400 mx-2" />
+            <select 
+              value={paperType}
+              onChange={(e) => setPaperType(e.target.value)}
+              className="bg-transparent text-[10px] uppercase font-bold tracking-wider text-paper-600 outline-none cursor-pointer pr-2"
+            >
+              <option value="plain">Plain</option>
+              <option value="lined">Lined</option>
+              <option value="grid">Grid</option>
+              <option value="dotted">Dotted</option>
+            </select>
+          </div>
         </div>
         <div className="flex items-center space-x-4">
           <button 
@@ -133,7 +155,7 @@ const Editor = () => {
           value={content}
           onChange={handleContentChange}
           placeholder="Start writing..."
-          className="flex-1 bg-transparent border-none outline-none resize-none font-sans text-lg leading-relaxed placeholder-paper-200 text-paper-800"
+          className={`flex-1 bg-transparent border-none outline-none resize-none font-sans text-lg leading-relaxed placeholder-paper-200 text-paper-800 ${paperClasses[paperType]}`}
         />
       </div>
 
