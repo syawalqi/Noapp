@@ -3,9 +3,20 @@ import { useUI } from '../context/UIContext';
 import { useNotes } from '../hooks/useNotes';
 import { Plus, FileText, Calendar } from 'lucide-react';
 
+import UnlockFolderDialog from './UnlockFolderDialog';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from '../db';
+
 const NoteList = () => {
-  const { activeFolderId, activeNoteId, setActiveNoteId } = useUI();
+  const { activeFolderId, activeNoteId, setActiveNoteId, unlockedFolderIds, unlockFolder } = useUI();
   const { notes, addNote } = useNotes(activeFolderId);
+  
+  const activeFolder = useLiveQuery(
+    () => (activeFolderId ? db.folders.get(activeFolderId) : null),
+    [activeFolderId]
+  );
+
+  const isLocked = activeFolder?.isLocked && !unlockedFolderIds.includes(activeFolderId);
 
   const handleAddNote = () => {
     if (!activeFolderId) {
@@ -14,6 +25,16 @@ const NoteList = () => {
     }
     addNote('Untitled Note', '', activeFolderId);
   };
+
+  if (activeFolderId && isLocked) {
+    return (
+      <UnlockFolderDialog 
+        folderId={activeFolderId} 
+        folderName={activeFolder.name} 
+        onUnlocked={unlockFolder} 
+      />
+    );
+  }
 
   return (
     <div className="w-80 h-screen bg-paper-50 border-r border-paper-200 flex flex-col">
