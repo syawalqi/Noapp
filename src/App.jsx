@@ -2,21 +2,20 @@ import React from 'react';
 import { useUI } from './context/UIContext';
 import Sidebar from './components/Sidebar';
 import NoteList from './components/NoteList';
+import Editor from './components/Editor';
 
 function App() {
   const { activeModule, isFocusMode } = useUI();
 
   return (
-    <div className="flex h-screen bg-paper-100 font-sans">
+    <div className="flex h-screen bg-paper-100 font-sans text-paper-900">
       {!isFocusMode && <Sidebar />}
       
       <main className="flex-1 flex overflow-hidden">
         {activeModule === 'notes' && (
           <>
-            <NoteList />
-            <div className="flex-1 bg-paper-50 flex items-center justify-center text-paper-300 italic">
-              Select a note to start writing
-            </div>
+            {!isFocusMode && <NoteList />}
+            <Editor />
           </>
         )}
         
