@@ -13,5 +13,5 @@
 
 ## Phase 3: Content Protection
 - [x] Task: Update Folder and Note hooks to respect lock status. 60f315e
-- [~] Task: Finalize 'papery' UI feedback for locked folders (e.g., lock icon, blurred content).
+- [x] Task: Finalize 'papery' UI feedback for locked folders (e.g., lock icon, blurred content). 720042c
 - [ ] Task: Conductor - User Manual Verification 'Content Protection' (Protocol in workflow.md)
