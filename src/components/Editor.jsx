@@ -69,7 +69,7 @@ const Editor = () => {
 
   if (!activeNoteId || !note) {
     return (
-      <div className="flex-1 bg-paper-50 flex items-center justify-center text-paper-300 italic font-serif text-lg">
+      <div className="flex-1 bg-transparent flex items-center justify-center text-paper-300 italic font-serif text-lg">
         Select a note to start writing
       </div>
     );
@@ -77,7 +77,7 @@ const Editor = () => {
 
   if (isLocked) {
     return (
-      <div className="flex-1 bg-paper-50 flex flex-col items-center justify-center p-8 text-center">
+      <div className="flex-1 bg-transparent flex flex-col items-center justify-center p-8 text-center">
         <div className="bg-paper-100 p-6 rounded-full mb-6">
           <Lock className="h-12 w-12 text-paper-300" />
         </div>
@@ -104,7 +104,7 @@ const Editor = () => {
   ];
 
   return (
-    <div className={`flex-1 flex flex-col bg-paper-50 transition-all duration-500 paper-grain ${isFocusMode ? 'px-4 md:px-32 lg:px-64' : 'px-8'}`}>
+    <div className={`flex-1 flex flex-col bg-transparent transition-all duration-500 paper-grain ${isFocusMode ? 'px-4 md:px-32 lg:px-64' : 'px-8'}`}>
       {/* Editor Toolbar */}
       <div className="py-4 flex justify-between items-center border-b border-paper-100 mb-8">
         <div className="flex items-center space-x-4">

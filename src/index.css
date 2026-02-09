@@ -1,23 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --color-paper-50: #fdfcfb;
-  --color-paper-100: #f9f7f4;
-  --color-paper-200: #f3f0eb;
-  --color-paper-300: #e7e2d8;
-  --color-paper-700: #4a453e;
-  --color-paper-800: #2d2a26;
-  --color-paper-900: #1a1816;
+  --color-paper-50: #fdfaf6;
+  --color-paper-100: #f2eadf;
+  --color-paper-200: #e3d9c9;
+  --color-paper-300: #d4c8b5;
+  --color-paper-700: #524d44;
+  --color-paper-800: #2e2b26;
+  --color-paper-900: #12110f;
+  --paper-noise-opacity: 0.05;
 }
 
 .dark {
-  --color-paper-50: #1a1816;
-  --color-paper-100: #23211e;
-  --color-paper-200: #2d2a26;
-  --color-paper-300: #4a453e;
-  --color-paper-700: #e7e2d8;
-  --color-paper-800: #f3f0eb;
-  --color-paper-900: #fdfcfb;
+  --color-paper-50: #141210;
+  --color-paper-100: #1c1a18;
+  --color-paper-200: #282522;
+  --color-paper-300: #383430;
+  --color-paper-700: #a8a295;
+  --color-paper-800: #d6d0c2;
+  --color-paper-900: #ede8df;
+  --paper-noise-opacity: 0.02;
 }
 
 @theme {
@@ -35,7 +37,7 @@
 
 @layer base {
   html {
-    @apply antialiased text-paper-900 bg-paper-100 transition-colors duration-300;
+    @apply antialiased text-paper-900 bg-paper-100 transition-colors duration-500;
   }
 
   body {
@@ -43,18 +45,18 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    @apply font-serif text-paper-800 transition-colors duration-500;
   }
 }
 
 @layer components {
   .papery-card {
-    @apply bg-paper-50 border border-paper-200 rounded-sm;
+    @apply bg-paper-50 border border-paper-200 rounded-sm transition-all duration-500;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
   }
   
   .papery-card-interactive {
-    @apply bg-paper-50 border border-paper-200 rounded-sm transition-all duration-200;
+    @apply bg-paper-50 border border-paper-200 rounded-sm transition-all duration-500;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
   }
 
@@ -64,7 +66,7 @@
   }
   
   .papery-input {
-    @apply bg-transparent border-b border-paper-300 focus:border-paper-700 outline-none transition-colors;
+    @apply bg-transparent border-b border-paper-300 focus:border-paper-700 outline-none transition-colors duration-300;
   }
 
   .paper-lined {
@@ -84,23 +86,23 @@
   }
 
   .prose-paper {
-    @apply leading-relaxed;
+    @apply leading-relaxed text-paper-900 transition-colors duration-500;
   }
 
-  .prose-paper h1 { @apply text-3xl font-serif font-bold mt-8 mb-4 text-paper-900; }
+  .prose-paper h1 { @apply text-3xl font-serif font-bold mt-8 mb-4 text-paper-800; }
   .prose-paper h2 { @apply text-2xl font-serif font-bold mt-6 mb-3 text-paper-800 border-b border-paper-200 pb-1; }
   .prose-paper h3 { @apply text-xl font-serif font-bold mt-4 mb-2 text-paper-800; }
   .prose-paper p { @apply mb-4; }
   .prose-paper ul { @apply list-disc list-inside mb-4 space-y-1 ml-2; }
   .prose-paper ol { @apply list-decimal list-inside mb-4 space-y-1 ml-2; }
   .prose-paper blockquote { @apply border-l-4 border-paper-300 pl-4 italic text-paper-700 my-6; }
-  .prose-paper code { @apply bg-paper-200 px-1.5 py-0.5 rounded-sm font-mono text-sm; }
-  .prose-paper pre { @apply bg-paper-800 text-paper-50 p-4 rounded-sm font-mono text-sm overflow-x-auto my-6; }
+  .prose-paper code { @apply bg-paper-200 px-1.5 py-0.5 rounded-sm font-mono text-sm transition-colors duration-500; }
+  .prose-paper pre { @apply bg-paper-800 text-paper-50 p-4 rounded-sm font-mono text-sm overflow-x-auto my-6 transition-colors duration-500; }
   .prose-paper pre code { @apply bg-transparent p-0 text-inherit; }
   .prose-paper a { @apply text-paper-700 underline decoration-paper-300 underline-offset-4 hover:text-paper-900 transition-colors; }
   .prose-paper table { @apply w-full border-collapse mb-6; }
-  .prose-paper th { @apply bg-paper-100 border border-paper-200 p-2 text-left font-bold; }
-  .prose-paper td { @apply border border-paper-200 p-2; }
+  .prose-paper th { @apply bg-paper-100 border border-paper-200 p-2 text-left font-bold transition-colors duration-500; }
+  .prose-paper td { @apply border border-paper-200 p-2 transition-colors duration-500; }
 
   .paper-grain {
     position: relative;
@@ -113,9 +115,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.04;
+    opacity: var(--paper-noise-opacity);
     pointer-events: none;
     z-index: 1;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    transition: opacity 0.5s ease;
   }
 }

@@ -37,7 +37,7 @@ const NoteList = () => {
   }
 
   return (
-    <div className="w-80 h-screen bg-paper-50 border-r border-paper-200 flex flex-col">
+    <div className="w-80 h-screen bg-transparent border-r border-paper-200 flex flex-col">
       <div className="p-4 border-b border-paper-200 flex justify-between items-center">
         <h2 className="text-sm font-semibold text-paper-700 uppercase tracking-wider">Notes</h2>
         <button 
