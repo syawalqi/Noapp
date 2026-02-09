@@ -3,12 +3,15 @@ import { useUI } from '../context/UIContext';
 import { useNotes } from '../hooks/useNotes';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Save, Trash2, Maximize2, Minimize2, Lock, Download, Layers } from 'lucide-react';
+import { Save, Trash2, Maximize2, Minimize2, Lock, Download, Layers, Eye, Edit3 } from 'lucide-react';
 import { downloadFile } from '../utils/file';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const Editor = () => {
   const { activeNoteId, setActiveNoteId, isFocusMode, setIsFocusMode, unlockedFolderIds, paperType, setPaperType } = useUI();
   const { updateNote, deleteNote } = useNotes();
+  const [isPreview, setIsPreview] = useState(false);
   
   // Use live query to get current note and its folder status
   const noteData = useLiveQuery(
@@ -66,7 +69,7 @@ const Editor = () => {
 
   if (!activeNoteId || !note) {
     return (
-      <div className="flex-1 bg-paper-50 flex items-center justify-center text-paper-300 italic font-serif">
+      <div className="flex-1 bg-paper-50 flex items-center justify-center text-paper-300 italic font-serif text-lg">
         Select a note to start writing
       </div>
     );
@@ -126,7 +129,18 @@ const Editor = () => {
             ))}
           </div>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
+          <button 
+            onClick={() => setIsPreview(!isPreview)}
+            className={`p-2 rounded-sm transition-colors flex items-center text-xs font-bold uppercase tracking-wider ${
+              isPreview ? 'bg-paper-800 text-paper-50' : 'hover:bg-paper-200 text-paper-700'
+            }`}
+            title={isPreview ? "Edit Note" : "Preview Markdown"}
+          >
+            {isPreview ? <Edit3 size={16} className="mr-2" /> : <Eye size={16} className="mr-2" />}
+            {isPreview ? 'Edit' : 'Preview'}
+          </button>
+          <div className="w-px h-4 bg-paper-200 mx-2" />
           <button 
             onClick={() => setIsFocusMode(!isFocusMode)}
             className="p-2 hover:bg-paper-200 rounded-sm text-paper-700 transition-colors"
@@ -162,12 +176,21 @@ const Editor = () => {
           placeholder="Note Title"
           className="text-4xl font-serif font-bold bg-transparent border-none outline-none mb-6 placeholder-paper-200 text-paper-900"
         />
-        <textarea
-          value={content}
-          onChange={handleContentChange}
-          placeholder="Start writing..."
-          className={`flex-1 bg-transparent border-none outline-none resize-none font-sans text-lg leading-relaxed placeholder-paper-200 text-paper-800 ${paperClasses[paperType]}`}
-        />
+        
+        {isPreview ? (
+          <div className={`flex-1 prose prose-paper max-w-none font-sans text-lg leading-relaxed text-paper-800 overflow-y-auto ${paperClasses[paperType]}`}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {content}
+            </ReactMarkdown>
+          </div>
+        ) : (
+          <textarea
+            value={content}
+            onChange={handleContentChange}
+            placeholder="Start writing..."
+            className={`flex-1 bg-transparent border-none outline-none resize-none font-sans text-lg leading-relaxed placeholder-paper-200 text-paper-800 ${paperClasses[paperType]}`}
+          />
+        )}
       </div>
 
       {/* Footer Info */}

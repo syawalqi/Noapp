@@ -8,7 +8,7 @@
 
 ## Phase 2: Markdown Preview
 - [x] Task: Install eact-markdown and related plugins (e.g., emark-gfm). c2784d8
-- [ ] Task: Implement a toggleable Preview mode in the Editor component.
+- [~] Task: Implement a toggleable Preview mode in the Editor component.
 - [ ] Task: Style the Markdown output to match the serif/sans papery aesthetic.
 - [ ] Task: Conductor - User Manual Verification 'Markdown Preview' (Protocol in workflow.md)
 
