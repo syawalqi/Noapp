@@ -55,4 +55,20 @@
   .papery-input {
     @apply bg-transparent border-b border-paper-300 focus:border-paper-700 outline-none transition-colors;
   }
+
+  .paper-lined {
+    background-image: linear-gradient(var(--color-paper-200) 1px, transparent 1px);
+    background-size: 100% 2.5rem;
+  }
+
+  .paper-grid {
+    background-image: linear-gradient(var(--color-paper-200) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--color-paper-200) 1px, transparent 1px);
+    background-size: 2.5rem 2.5rem;
+  }
+
+  .paper-dotted {
+    background-image: radial-gradient(var(--color-paper-300) 1px, transparent 1px);
+    background-size: 2rem 2.5rem;
+  }
 }

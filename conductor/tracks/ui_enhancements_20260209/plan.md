@@ -1,7 +1,7 @@
 # Implementation Plan: UI Polish
 
 ## Phase 1: Background Patterns
-- [ ] Task: Create CSS utility classes for Lined, Grid, and Dotted backgrounds in index.css.
+- [~] Task: Create CSS utility classes for Lined, Grid, and Dotted backgrounds in index.css.
 - [ ] Task: Add a 'Paper Type' selector to the Editor toolbar.
 - [ ] Task: Persist the selected paper type in UIContext.
 - [ ] Task: Conductor - User Manual Verification 'Background Patterns' (Protocol in workflow.md)

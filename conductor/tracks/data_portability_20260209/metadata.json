@@ -1,8 +1,0 @@
-{
-  "track_id": "data_portability_20260209",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-02-09T16:07:21Z",
-  "updated_at": "2026-02-09T16:07:21Z",
-  "description": "Implement Data Portability: Markdown Export and JSON Backup/Restore."
-}
