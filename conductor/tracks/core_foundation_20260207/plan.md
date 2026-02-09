@@ -13,6 +13,6 @@
 
 ## Phase 3: Core UI & Basic Notes
 - [x] Task: Build the responsive Sidebar with folder navigation. 3c8dc2d
-- [ ] Task: Implement 'Create Folder' and 'Create Note' functionality.
+- [~] Task: Implement 'Create Folder' and 'Create Note' functionality.
 - [ ] Task: Build a basic Markdown-ready Note Editor.
 - [ ] Task: Conductor - User Manual Verification 'Core UI & Basic Notes' (Protocol in workflow.md)

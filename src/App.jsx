@@ -1,39 +1,39 @@
-import { useUI } from './context/UIContext'
-import { useFolders } from './hooks/useFolders'
+import React from 'react';
+import { useUI } from './context/UIContext';
+import Sidebar from './components/Sidebar';
+import NoteList from './components/NoteList';
 
 function App() {
-  const { theme, toggleTheme } = useUI()
-  const { folders, addFolder } = useFolders()
+  const { activeModule, isFocusMode } = useUI();
 
   return (
-    <div className="p-8">
-      <h1 className="text-4xl mb-4">NoApp Debug View</h1>
-      <div className="papery-card p-6 mb-4">
-        <p className="mb-2">Theme: <strong>{theme}</strong></p>
-        <button 
-          onClick={toggleTheme}
-          className="bg-paper-700 text-paper-50 px-4 py-2 rounded shadow-sm hover:bg-paper-800 transition-colors"
-        >
-          Toggle Theme
-        </button>
-      </div>
+    <div className="flex h-screen bg-paper-100 font-sans">
+      {!isFocusMode && <Sidebar />}
+      
+      <main className="flex-1 flex overflow-hidden">
+        {activeModule === 'notes' && (
+          <>
+            <NoteList />
+            <div className="flex-1 bg-paper-50 flex items-center justify-center text-paper-300 italic">
+              Select a note to start writing
+            </div>
+          </>
+        )}
+        
+        {activeModule === 'todos' && (
+          <div className="flex-1 flex items-center justify-center text-paper-300">
+            Todo module coming soon
+          </div>
+        )}
 
-      <div className="papery-card p-6">
-        <p className="mb-2">Folders in IndexedDB: <strong>{folders?.length || 0}</strong></p>
-        <button 
-          onClick={() => addFolder(`Test Folder ${Date.now()}`)}
-          className="bg-paper-700 text-paper-50 px-4 py-2 rounded shadow-sm hover:bg-paper-800 transition-colors"
-        >
-          Add Test Folder
-        </button>
-        <ul className="mt-4 list-disc list-inside">
-          {folders?.map(f => (
-            <li key={f.id}>{f.name}</li>
-          ))}
-        </ul>
-      </div>
+        {activeModule === 'settings' && (
+          <div className="flex-1 flex items-center justify-center text-paper-300">
+            Settings module coming soon
+          </div>
+        )}
+      </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
