@@ -12,8 +12,8 @@
 - [x] Task: Display active tags as removable badges on each note. 90f2e24
 - [x] Task: Conductor - User Manual Verification 'Tagging UI in Editor' (Protocol in workflow.md) 90f2e24
 
-## Phase 3: Sidebar Integration & Global Filtering [checkpoint: 9113691]
+## Phase 3: Sidebar Integration & Global Filtering [checkpoint: 886d698]
 - [x] Task: Add a 'Tags' section to the Sidebar (below Folders). 9113691
 - [x] Task: Implement global tag-based filtering (overrides folder view). 9113691
 - [x] Task: Style tag badges with subtle, papery colors. 9113691
-- [~] Task: Conductor - User Manual Verification 'Sidebar Integration & Global Filtering' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Sidebar Integration & Global Filtering' (Protocol in workflow.md) 886d698
