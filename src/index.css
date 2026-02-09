@@ -72,6 +72,25 @@
     background-size: 2rem 2.5rem;
   }
 
+  .prose-paper {
+    @apply leading-relaxed;
+  }
+
+  .prose-paper h1 { @apply text-3xl font-serif font-bold mt-8 mb-4 text-paper-900; }
+  .prose-paper h2 { @apply text-2xl font-serif font-bold mt-6 mb-3 text-paper-800 border-b border-paper-200 pb-1; }
+  .prose-paper h3 { @apply text-xl font-serif font-bold mt-4 mb-2 text-paper-800; }
+  .prose-paper p { @apply mb-4; }
+  .prose-paper ul { @apply list-disc list-inside mb-4 space-y-1 ml-2; }
+  .prose-paper ol { @apply list-decimal list-inside mb-4 space-y-1 ml-2; }
+  .prose-paper blockquote { @apply border-l-4 border-paper-300 pl-4 italic text-paper-700 my-6; }
+  .prose-paper code { @apply bg-paper-200 px-1.5 py-0.5 rounded-sm font-mono text-sm; }
+  .prose-paper pre { @apply bg-paper-800 text-paper-50 p-4 rounded-sm font-mono text-sm overflow-x-auto my-6; }
+  .prose-paper pre code { @apply bg-transparent p-0 text-inherit; }
+  .prose-paper a { @apply text-paper-700 underline decoration-paper-300 underline-offset-4 hover:text-paper-900 transition-colors; }
+  .prose-paper table { @apply w-full border-collapse mb-6; }
+  .prose-paper th { @apply bg-paper-100 border border-paper-200 p-2 text-left font-bold; }
+  .prose-paper td { @apply border border-paper-200 p-2; }
+
   .paper-grain {
     position: relative;
   }
