@@ -10,12 +10,23 @@ import {
   Timer, 
   Calendar,
   Hash,
-  X
+  X,
+  Brain,
+  Minimize2
 } from 'lucide-react';
 
 const Todos = () => {
+  const { 
+    activeModule, 
+    isFocusMode, 
+    setIsFocusMode, 
+    focusTodoId, 
+    setFocusTodoId 
+  } = useUI();
+  
   const [activeCategoryId, setActiveCategoryId] = useState(null);
   const [showTimer, setShowTimer] = useState(false);
+  
   const { 
     todos, 
     categories, 
@@ -31,6 +42,8 @@ const Todos = () => {
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
 
+  const focusedTodo = todos?.find(t => t.id === focusTodoId);
+
   const handleAddTodo = async (e) => {
     e.preventDefault();
     if (!newTodoTitle.trim()) return;
@@ -39,18 +52,18 @@ const Todos = () => {
     setNewTodoDate('');
   };
 
-  const handleAddCategory = async (e) => {
-    e.preventDefault();
-    if (!newCategoryName.trim()) return;
-    const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    await addCategory(newCategoryName, randomColor);
-    setNewCategoryName('');
-    setIsAddingCategory(false);
-  };
-
   const toggleTodo = async (todo) => {
     await updateTodo(todo.id, { isCompleted: !todo.isCompleted });
+  };
+
+  const handleEnterFocus = (todoId) => {
+    setFocusTodoId(todoId);
+    setIsFocusMode(true);
+  };
+
+  const handleExitFocus = () => {
+    setFocusTodoId(null);
+    setIsFocusMode(false);
   };
 
   const getDueDateBadge = (date) => {
@@ -68,6 +81,51 @@ const Todos = () => {
     if (diffDays === 1) return { label: 'Tomorrow', color: 'text-paper-600 bg-paper-100' };
     return { label: d.toLocaleDateString(), color: 'text-paper-400 bg-paper-100' };
   };
+
+  // --- Focus View ---
+  if (isFocusMode && focusedTodo) {
+    return (
+      <div className="flex-1 bg-paper-100 flex flex-col items-center justify-center p-8 paper-grain animate-in fade-in duration-1000">
+        <button 
+          onClick={handleExitFocus}
+          className="absolute top-8 right-8 p-3 hover:bg-paper-200 rounded-full transition-all text-paper-400 hover:text-paper-800"
+          title="Exit Focus Mode"
+        >
+          <Minimize2 size={24} />
+        </button>
+
+        <div className="max-w-md w-full space-y-12">
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <div className="bg-paper-200 p-4 rounded-full animate-pulse">
+                <Brain className="h-8 w-8 text-paper-800" />
+              </div>
+            </div>
+            <h2 className="text-3xl font-serif font-bold text-paper-900 tracking-tight leading-tight">
+              {focusedTodo.title}
+            </h2>
+            <p className="text-paper-400 text-xs uppercase font-bold tracking-widest">Deep Work Session</p>
+          </div>
+
+          <PomodoroTimer />
+          
+          <div className="flex justify-center">
+            <button
+              onClick={() => toggleTodo(focusedTodo)}
+              className={`flex items-center px-6 py-3 rounded-sm border transition-all text-sm font-bold uppercase tracking-wider ${
+                focusedTodo.isCompleted 
+                  ? 'bg-green-50 border-green-200 text-green-700' 
+                  : 'bg-paper-50 border-paper-200 text-paper-700 hover:border-paper-400'
+              }`}
+            >
+              {focusedTodo.isCompleted ? <CheckCircle2 size={18} className="mr-3" /> : <Circle size={18} className="mr-3" />}
+              {focusedTodo.isCompleted ? 'Task Completed' : 'Mark as Done'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex bg-paper-100 overflow-hidden h-screen">
@@ -147,7 +205,7 @@ const Todos = () => {
           }`}
         >
           <Timer className="mr-3 h-4 w-4" />
-          Focus Timer
+          General Timer
         </button>
       </div>
 
@@ -242,6 +300,13 @@ const Todos = () => {
                         </div>
 
                         <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity ml-4">
+                          <button
+                            onClick={() => handleEnterFocus(todo.id)}
+                            className="p-2 text-paper-300 hover:text-paper-800 transition-colors"
+                            title="Focus on this task"
+                          >
+                            <Brain size={18} />
+                          </button>
                           <button
                             onClick={() => deleteTodo(todo.id)}
                             className="p-2 text-paper-300 hover:text-red-600 transition-colors"

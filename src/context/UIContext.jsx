@@ -7,6 +7,7 @@ export const UIProvider = ({ children }) => {
   const [activeFolderId, setActiveFolderId] = useState(null);
   const [activeNoteId, setActiveNoteId] = useState(null);
   const [isFocusMode, setIsFocusMode] = useState(false);
+  const [focusTodoId, setFocusTodoId] = useState(null);
   const [unlockedFolderIds, setUnlockedFolderIds] = useState([]);
   const [paperType, setPaperType] = useState(() => {
     return localStorage.getItem('paperType') || 'plain';
@@ -45,6 +46,8 @@ export const UIProvider = ({ children }) => {
     setActiveNoteId,
     isFocusMode,
     setIsFocusMode,
+    focusTodoId,
+    setFocusTodoId,
     unlockedFolderIds,
     unlockFolder,
     paperType,
