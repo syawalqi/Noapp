@@ -2,22 +2,41 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
 import { useUI } from '../context/UIContext';
 
-export const useNotes = (folderId = null) => {
+export const useNotes = (folderId = null, tagId = null) => {
   const { unlockedFolderIds } = useUI();
 
   const notes = useLiveQuery(
     async () => {
-      if (!folderId) return await db.notes.toArray();
-
-      // Check if the specific folder is locked
-      const folder = await db.folders.get(folderId);
-      if (folder?.isLocked && !unlockedFolderIds.includes(folderId)) {
-        return []; // Return empty if locked and not session-unlocked
+      let query;
+      
+      if (tagId) {
+        query = db.notes.where('tagIds').equals(tagId);
+      } else if (folderId) {
+        query = db.notes.where('folderId').equals(folderId);
+      } else {
+        query = db.notes;
       }
 
-      return await db.notes.where('folderId').equals(folderId).toArray();
+      const results = await query.toArray();
+
+      // Filter out notes from locked folders that are NOT in session-unlocked list
+      // Note: This is an extra safety check for tag-based global filtering
+      const filteredResults = [];
+      for (const note of results) {
+        if (!note.folderId) {
+          filteredResults.push(note);
+          continue;
+        }
+        
+        const folder = await db.folders.get(note.folderId);
+        if (!folder?.isLocked || unlockedFolderIds.includes(folder.id)) {
+          filteredResults.push(note);
+        }
+      }
+
+      return filteredResults;
     },
-    [folderId, unlockedFolderIds]
+    [folderId, tagId, unlockedFolderIds]
   );
 
   const addNote = async (title, content, folderId) => {
