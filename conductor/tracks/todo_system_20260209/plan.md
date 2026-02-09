@@ -7,8 +7,8 @@
 - [x] Task: Conductor - User Manual Verification 'Data & Basic CRUD' (Protocol in workflow.md) 9c525ae
 
 ## Phase 2: Categories & Deadlines
-- [~] Task: Implement Category management (Create/Delete categories).
-- [ ] Task: Add Due Date selection and visual 'Overdue'/'Upcoming' badges.
+- [x] Task: Implement Category management (Create/Delete categories). be4b071
+- [~] Task: Add Due Date selection and visual 'Overdue'/'Upcoming' badges.
 - [ ] Task: Implement filtering by category and sorting by date.
 - [ ] Task: Conductor - User Manual Verification 'Categories & Deadlines' (Protocol in workflow.md)
 

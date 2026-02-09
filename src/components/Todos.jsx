@@ -26,14 +26,16 @@ const Todos = () => {
   } = useTodos(activeCategoryId);
   
   const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [newTodoDate, setNewTodoDate] = useState('');
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
 
   const handleAddTodo = async (e) => {
     e.preventDefault();
     if (!newTodoTitle.trim()) return;
-    await addTodo(newTodoTitle, activeCategoryId);
+    await addTodo(newTodoTitle, activeCategoryId, newTodoDate ? new Date(newTodoDate) : null);
     setNewTodoTitle('');
+    setNewTodoDate('');
   };
 
   const handleAddCategory = async (e) => {
@@ -48,6 +50,22 @@ const Todos = () => {
 
   const toggleTodo = async (todo) => {
     await updateTodo(todo.id, { isCompleted: !todo.isCompleted });
+  };
+
+  const getDueDateBadge = (date) => {
+    if (!date) return null;
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+
+    const diffTime = d - now;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) return { label: 'Overdue', color: 'text-red-600 bg-red-50' };
+    if (diffDays === 0) return { label: 'Today', color: 'text-amber-600 bg-amber-50' };
+    if (diffDays === 1) return { label: 'Tomorrow', color: 'text-paper-600 bg-paper-100' };
+    return { label: d.toLocaleDateString(), color: 'text-paper-400 bg-paper-100' };
   };
 
   return (
@@ -119,13 +137,13 @@ const Todos = () => {
       </div>
 
       {/* Main Todo List */}
-      <div className="flex-1 bg-paper-50 p-8 md:p-16 overflow-y-auto paper-grain">
+      <div className="flex-1 bg-paper-50 p-8 md:p-16 overflow-y-auto paper-grain h-screen">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-4xl font-serif font-bold text-paper-900 mb-8">
             {activeCategoryId ? categories?.find(c => c.id === activeCategoryId)?.name : 'Todos'}
           </h1>
 
-          <form onSubmit={handleAddTodo} className="mb-12">
+          <form onSubmit={handleAddTodo} className="mb-12 space-y-4">
             <div className="relative group">
               <input
                 type="text"
@@ -141,6 +159,17 @@ const Todos = () => {
                 <Plus size={24} />
               </button>
             </div>
+            <div className="flex items-center space-x-4 animate-in fade-in duration-700">
+              <div className="flex items-center bg-paper-100 rounded-sm px-3 py-1.5 border border-paper-200">
+                <Calendar size={14} className="text-paper-400 mr-2" />
+                <input 
+                  type="date"
+                  value={newTodoDate}
+                  onChange={(e) => setNewTodoDate(e.target.value)}
+                  className="bg-transparent text-xs font-bold uppercase tracking-wider text-paper-600 outline-none cursor-pointer"
+                />
+              </div>
+            </div>
           </form>
 
           <div className="space-y-3">
@@ -151,6 +180,7 @@ const Todos = () => {
             ) : (
               todos?.sort((a, b) => a.isCompleted - b.isCompleted || b.createdAt - a.createdAt).map((todo) => {
                 const category = categories?.find(c => c.id === todo.categoryId);
+                const badge = getDueDateBadge(todo.dueDate);
                 return (
                   <div 
                     key={todo.id}
@@ -166,20 +196,27 @@ const Todos = () => {
                     </button>
                     
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
                         <span className={`text-lg transition-all truncate ${
                           todo.isCompleted ? 'text-paper-300 line-through' : 'text-paper-800'
                         }`}>
                           {todo.title}
                         </span>
-                        {category && !activeCategoryId && (
-                          <span 
-                            className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-sm opacity-60"
-                            style={{ backgroundColor: category.color + '20', color: category.color }}
-                          >
-                            {category.name}
-                          </span>
-                        )}
+                        <div className="flex items-center space-x-2 mt-1 sm:mt-0">
+                          {category && !activeCategoryId && (
+                            <span 
+                              className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-sm opacity-60"
+                              style={{ backgroundColor: category.color + '20', color: category.color }}
+                            >
+                              {category.name}
+                            </span>
+                          )}
+                          {badge && !todo.isCompleted && (
+                            <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-sm ${badge.color}`}>
+                              {badge.label}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
 
