@@ -2,7 +2,7 @@
 
 ## Phase 1: Security Utilities
 - [x] Task: Implement hashPassword utility using Web Crypto API (PBKDF2). 1334d72
-- [ ] Task: Create a service for password verification.
+- [~] Task: Create a service for password verification.
 - [ ] Task: Conductor - User Manual Verification 'Security Utilities' (Protocol in workflow.md)
 
 ## Phase 2: Lock/Unlock UI & State
