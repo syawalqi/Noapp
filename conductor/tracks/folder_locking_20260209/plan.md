@@ -1,9 +1,9 @@
 # Implementation Plan: Folder Locking
 
-## Phase 1: Security Utilities
+## Phase 1: Security Utilities [checkpoint: c6f8246]
 - [x] Task: Implement hashPassword utility using Web Crypto API (PBKDF2). 1334d72
 - [x] Task: Create a service for password verification. 08ba8d6
-- [ ] Task: Conductor - User Manual Verification 'Security Utilities' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Security Utilities' (Protocol in workflow.md) c6f8246
 
 ## Phase 2: Lock/Unlock UI & State
 - [ ] Task: Update UI Context to manage temporarily unlocked folders.
