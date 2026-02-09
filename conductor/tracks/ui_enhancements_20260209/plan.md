@@ -14,6 +14,6 @@
 
 ## Phase 3: Aesthetic Refinement
 - [x] Task: Add a subtle 'grain' texture overlay to the entire app. 00c31c1
-- [ ] Task: Improve transitions between Notes/Folders for a 'smoother' feel.
+- [~] Task: Improve transitions between Notes/Folders for a 'smoother' feel.
 - [ ] Task: Finalize papery shadows and border-radius consistency.
 - [ ] Task: Conductor - User Manual Verification 'Aesthetic Refinement' (Protocol in workflow.md)

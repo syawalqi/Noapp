@@ -168,7 +168,7 @@ const Editor = () => {
       </div>
 
       {/* Inputs */}
-      <div className="flex-1 flex flex-col max-w-4xl w-full mx-auto relative z-10">
+      <div key={activeNoteId} className="flex-1 flex flex-col max-w-4xl w-full mx-auto relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
         <input
           type="text"
           value={title}

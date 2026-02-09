@@ -51,15 +51,15 @@ const NoteList = () => {
 
       <div className="flex-1 overflow-y-auto">
         {!activeFolderId ? (
-          <div className="p-8 text-center text-paper-300 italic text-sm">
+          <div className="p-8 text-center text-paper-300 italic text-sm animate-in fade-in duration-500">
             Select a folder to see notes
           </div>
         ) : notes?.length === 0 ? (
-          <div className="p-8 text-center text-paper-300 italic text-sm">
+          <div className="p-8 text-center text-paper-300 italic text-sm animate-in fade-in duration-500">
             No notes in this folder
           </div>
         ) : (
-          <div className="divide-y divide-paper-100">
+          <div className="divide-y divide-paper-100 animate-in fade-in slide-in-from-left-2 duration-300">
             {notes?.map((note) => (
               <button
                 key={note.id}
