@@ -12,7 +12,7 @@
 - [x] Task: Conductor - User Manual Verification 'Data & State Layer' (Protocol in workflow.md) ef48471
 
 ## Phase 3: Core UI & Basic Notes
-- [ ] Task: Build the responsive Sidebar with folder navigation.
+- [~] Task: Build the responsive Sidebar with folder navigation.
 - [ ] Task: Implement 'Create Folder' and 'Create Note' functionality.
 - [ ] Task: Build a basic Markdown-ready Note Editor.
 - [ ] Task: Conductor - User Manual Verification 'Core UI & Basic Notes' (Protocol in workflow.md)
