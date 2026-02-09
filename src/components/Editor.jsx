@@ -3,7 +3,8 @@ import { useUI } from '../context/UIContext';
 import { useNotes } from '../hooks/useNotes';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Save, Trash2, Maximize2, Minimize2, Lock } from 'lucide-react';
+import { Save, Trash2, Maximize2, Minimize2, Lock, Download } from 'lucide-react';
+import { downloadFile } from '../utils/file';
 
 const Editor = () => {
   const { activeNoteId, setActiveNoteId, isFocusMode, setIsFocusMode, unlockedFolderIds } = useUI();
@@ -57,6 +58,12 @@ const Editor = () => {
     }
   };
 
+  const handleExport = () => {
+    const fileName = `${title || 'Untitled'}.md`;
+    const exportContent = `# ${title || 'Untitled'}\n\n${content}`;
+    downloadFile(exportContent, fileName, 'text/markdown');
+  };
+
   if (!activeNoteId || !note) {
     return (
       <div className="flex-1 bg-paper-50 flex items-center justify-center text-paper-300 italic font-serif">
@@ -96,6 +103,13 @@ const Editor = () => {
           </button>
         </div>
         <div className="flex items-center space-x-2">
+          <button 
+            onClick={handleExport}
+            className="p-2 hover:bg-paper-200 rounded-sm text-paper-700 transition-colors"
+            title="Export as Markdown"
+          >
+            <Download size={18} />
+          </button>
           <button 
             onClick={handleDelete}
             className="p-2 hover:bg-red-50 hover:text-red-600 rounded-sm text-paper-300 transition-colors"
