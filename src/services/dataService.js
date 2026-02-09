@@ -19,12 +19,25 @@ export const exportData = async () => {
 };
 
 /**
+ * Validates the structure of the imported data.
+ */
+const validateImport = (importObj) => {
+  if (!importObj || typeof importObj !== 'object') return false;
+  if (!importObj.data || typeof importObj.data !== 'object') return false;
+  if (!Array.isArray(importObj.data.folders)) return false;
+  if (!Array.isArray(importObj.data.notes)) return false;
+  
+  // Optional: More deep validation can be added here
+  return true;
+};
+
+/**
  * Imports data from a JSON object into the database.
  * Note: This clears existing data first.
  * @param {Object} importObj 
  */
 export const importData = async (importObj) => {
-  if (!importObj.data || !importObj.data.folders || !importObj.data.notes) {
+  if (!validateImport(importObj)) {
     throw new Error('Invalid backup file format');
   }
 

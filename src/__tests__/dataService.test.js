@@ -41,4 +41,9 @@ describe('Data Service', () => {
     expect(folders[0].name).toBe('New Folder');
     expect(notes.length).toBe(1);
   });
+
+  it('should throw error for invalid backup format', async () => {
+    const invalidObj = { foo: 'bar' };
+    await expect(importData(invalidObj)).rejects.toThrow('Invalid backup file format');
+  });
 });
