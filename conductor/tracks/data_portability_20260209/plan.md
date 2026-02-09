@@ -7,7 +7,7 @@
 - [x] Task: Conductor - User Manual Verification 'Export Utilities' (Protocol in workflow.md) 435f6e8
 
 ## Phase 2: Import & Restore Logic
-- [ ] Task: Implement JSON file picker and parsing logic.
+- [~] Task: Implement JSON file picker and parsing logic.
 - [ ] Task: Create database restoration service (clear existing + bulk add).
 - [ ] Task: Implement data validation to prevent corrupt imports.
 - [ ] Task: Conductor - User Manual Verification 'Import & Restore Logic' (Protocol in workflow.md)

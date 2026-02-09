@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { downloadFile } from '../utils/file';
+import { downloadFile, pickAndReadFile } from '../utils/file';
 
 describe('File Utilities', () => {
   beforeEach(() => {
@@ -20,5 +20,17 @@ describe('File Utilities', () => {
 
     expect(global.URL.createObjectURL).toHaveBeenCalled();
     expect(HTMLAnchorElement.prototype.click).toHaveBeenCalled();
+  });
+
+  it('should trigger file picker', async () => {
+    // We can't easily test the full async flow of FileReader in JSDOM 
+    // without heavy mocking, but we can verify the function exists
+    // and triggers the click.
+    const spy = vi.spyOn(HTMLInputElement.prototype, 'click').mockImplementation(() => {});
+    
+    // We don't await because it won't resolve without a manual change event
+    pickAndReadFile('.json');
+    
+    expect(spy).toHaveBeenCalled();
   });
 });

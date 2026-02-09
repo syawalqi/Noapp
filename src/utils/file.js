@@ -20,3 +20,35 @@ export const downloadFile = (content, fileName, contentType) => {
   // Cleanup
   setTimeout(() => URL.revokeObjectURL(url), 100);
 };
+
+/**
+ * Opens a file picker and reads the selected file as text.
+ * @param {string} accept - File types to accept (e.g., '.json')
+ * @returns {Promise<string>}
+ */
+export const pickAndReadFile = (accept) => {
+  return new Promise((resolve, reject) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = accept;
+
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) {
+        reject(new Error('No file selected'));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      reader.onerror = () => {
+        reject(new Error('Failed to read file'));
+      };
+      reader.readAsText(file);
+    };
+
+    input.click();
+  });
+};
