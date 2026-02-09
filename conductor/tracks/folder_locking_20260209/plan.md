@@ -5,11 +5,11 @@
 - [x] Task: Create a service for password verification. 08ba8d6
 - [x] Task: Conductor - User Manual Verification 'Security Utilities' (Protocol in workflow.md) c6f8246
 
-## Phase 2: Lock/Unlock UI & State
+## Phase 2: Lock/Unlock UI & State [checkpoint: 322e065]
 - [x] Task: Update UI Context to manage temporarily unlocked folders. 8f37f91
 - [x] Task: Create a 'Lock Folder' modal for password setup. 6e7984c
 - [x] Task: Create an 'Unlock' overlay/dialog for protected folders. 0859cca
-- [ ] Task: Conductor - User Manual Verification 'Lock/Unlock UI & State' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Lock/Unlock UI & State' (Protocol in workflow.md) 322e065
 
 ## Phase 3: Content Protection
 - [ ] Task: Update Folder and Note hooks to respect lock status.
