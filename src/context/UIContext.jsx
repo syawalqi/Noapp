@@ -7,6 +7,7 @@ export const UIProvider = ({ children }) => {
   const [activeFolderId, setActiveFolderId] = useState(null);
   const [activeNoteId, setActiveNoteId] = useState(null);
   const [isFocusMode, setIsFocusMode] = useState(false);
+  const [unlockedFolderIds, setUnlockedFolderIds] = useState([]);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'light';
   });
@@ -24,6 +25,10 @@ export const UIProvider = ({ children }) => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
+  const unlockFolder = (folderId) => {
+    setUnlockedFolderIds((prev) => [...prev, folderId]);
+  };
+
   const value = {
     activeModule,
     setActiveModule,
@@ -33,6 +38,8 @@ export const UIProvider = ({ children }) => {
     setActiveNoteId,
     isFocusMode,
     setIsFocusMode,
+    unlockedFolderIds,
+    unlockFolder,
     theme,
     toggleTheme,
   };

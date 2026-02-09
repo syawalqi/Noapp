@@ -33,4 +33,14 @@ describe('UIContext', () => {
     
     expect(result.current.activeModule).toBe('todos');
   });
+
+  it('should manage unlocked folder IDs', () => {
+    const { result } = renderHook(() => useUI(), { wrapper });
+    
+    act(() => {
+      result.current.unlockFolder(123);
+    });
+    
+    expect(result.current.unlockedFolderIds).toContain(123);
+  });
 });
