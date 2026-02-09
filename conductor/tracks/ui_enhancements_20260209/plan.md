@@ -13,7 +13,7 @@
 - [x] Task: Conductor - User Manual Verification 'Markdown Preview' (Protocol in workflow.md) 66d7415
 
 ## Phase 3: Aesthetic Refinement
-- [ ] Task: Add a subtle 'grain' texture overlay to the entire app.
+- [~] Task: Add a subtle 'grain' texture overlay to the entire app.
 - [ ] Task: Improve transitions between Notes/Folders for a 'smoother' feel.
 - [ ] Task: Finalize papery shadows and border-radius consistency.
 - [ ] Task: Conductor - User Manual Verification 'Aesthetic Refinement' (Protocol in workflow.md)

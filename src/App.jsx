@@ -9,7 +9,7 @@ function App() {
   const { activeModule, isFocusMode } = useUI();
 
   return (
-    <div className="flex h-screen bg-paper-100 font-sans text-paper-900">
+    <div className="flex h-screen bg-paper-100 font-sans text-paper-900 paper-grain">
       {!isFocusMode && <Sidebar />}
       
       <main className="flex-1 flex overflow-hidden">
