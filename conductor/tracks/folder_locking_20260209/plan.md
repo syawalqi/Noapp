@@ -1,7 +1,7 @@
 # Implementation Plan: Folder Locking
 
 ## Phase 1: Security Utilities
-- [ ] Task: Implement hashPassword utility using Web Crypto API (PBKDF2).
+- [~] Task: Implement hashPassword utility using Web Crypto API (PBKDF2).
 - [ ] Task: Create a service for password verification.
 - [ ] Task: Conductor - User Manual Verification 'Security Utilities' (Protocol in workflow.md)
 

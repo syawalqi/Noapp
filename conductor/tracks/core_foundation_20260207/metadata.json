@@ -1,8 +1,0 @@
-{
-  "track_id": "core_foundation_20260207",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-02-07T15:47:43Z",
-  "updated_at": "2026-02-07T15:47:43Z",
-  "description": "Build the core foundation: Scaffolding, local database setup, and basic note-taking with folder organization."
-}
