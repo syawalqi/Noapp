@@ -7,7 +7,7 @@
 
 ## Phase 2: Data & State Layer
 - [x] Task: Define Dexie.js database schema for Folders and Notes. 51851ce
-- [~] Task: Create custom React Hooks for database operations.
+- [x] Task: Create custom React Hooks for database operations. 28ac47b
 - [ ] Task: Implement Global UI Context for theme and navigation state.
 - [ ] Task: Conductor - User Manual Verification 'Data & State Layer' (Protocol in workflow.md)
 
