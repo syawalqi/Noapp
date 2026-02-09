@@ -93,26 +93,37 @@ const Editor = () => {
     dotted: 'paper-dotted'
   };
 
+  const paperOptions = [
+    { id: 'plain', label: 'Plain Paper', class: '' },
+    { id: 'lined', label: 'Lined Paper', class: 'paper-lined' },
+    { id: 'grid', label: 'Grid Paper', class: 'paper-grid' },
+    { id: 'dotted', label: 'Dotted Paper', class: 'paper-dotted' },
+  ];
+
   return (
-    <div className={`flex-1 flex flex-col bg-paper-50 transition-all duration-500 ${isFocusMode ? 'px-4 md:px-32 lg:px-64' : 'px-8'}`}>
+    <div className={`flex-1 flex flex-col bg-paper-50 transition-all duration-500 paper-grain ${isFocusMode ? 'px-4 md:px-32 lg:px-64' : 'px-8'}`}>
       {/* Editor Toolbar */}
       <div className="py-4 flex justify-between items-center border-b border-paper-100 mb-8">
         <div className="flex items-center space-x-4">
-          <div className="text-xs text-paper-400 font-serif italic mr-4">
+          <div className="text-xs text-paper-400 font-serif italic mr-2 hidden sm:block">
             {folder?.name}
           </div>
-          <div className="flex items-center bg-paper-100 rounded-sm p-1">
-            <Layers size={14} className="text-paper-400 mx-2" />
-            <select 
-              value={paperType}
-              onChange={(e) => setPaperType(e.target.value)}
-              className="bg-transparent text-[10px] uppercase font-bold tracking-wider text-paper-600 outline-none cursor-pointer pr-2"
-            >
-              <option value="plain">Plain</option>
-              <option value="lined">Lined</option>
-              <option value="grid">Grid</option>
-              <option value="dotted">Dotted</option>
-            </select>
+          <div className="flex items-center space-x-1 bg-paper-100 p-1 rounded-sm border border-paper-200">
+            {paperOptions.map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setPaperType(option.id)}
+                title={option.label}
+                className={`w-6 h-6 rounded-sm border transition-all flex items-center justify-center overflow-hidden ${
+                  paperType === option.id 
+                    ? 'border-paper-700 ring-1 ring-paper-700 shadow-sm' 
+                    : 'border-paper-200 hover:border-paper-400'
+                } bg-paper-50 ${option.class}`}
+                style={option.id !== 'plain' ? { backgroundSize: '4px 4px' } : {}}
+              >
+                {paperType === option.id && <div className="w-1 h-1 bg-paper-700 rounded-full" />}
+              </button>
+            ))}
           </div>
         </div>
         <div className="flex items-center space-x-4">
@@ -143,7 +154,7 @@ const Editor = () => {
       </div>
 
       {/* Inputs */}
-      <div className="flex-1 flex flex-col max-w-4xl w-full mx-auto">
+      <div className="flex-1 flex flex-col max-w-4xl w-full mx-auto relative z-10">
         <input
           type="text"
           value={title}
