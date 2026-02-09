@@ -1,7 +1,7 @@
 # Implementation Plan: Core Foundation
 
 ## Phase 1: Environment Setup
-- [ ] Task: Initialize Vite project and install dependencies (React, Tailwind, Lucide-react, Dexie.js).
+- [~] Task: Initialize Vite project and install dependencies (React, Tailwind, Lucide-react, Dexie.js).
 - [ ] Task: Configure Tailwind CSS with custom 'papery' theme tokens (creamy whites, soft greys).
 - [ ] Task: Conductor - User Manual Verification 'Environment Setup' (Protocol in workflow.md)
 
