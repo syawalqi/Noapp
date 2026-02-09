@@ -11,7 +11,7 @@
 - [x] Task: Create an 'Unlock' overlay/dialog for protected folders. 0859cca
 - [x] Task: Conductor - User Manual Verification 'Lock/Unlock UI & State' (Protocol in workflow.md) 322e065
 
-## Phase 3: Content Protection
+## Phase 3: Content Protection [checkpoint: 189f510]
 - [x] Task: Update Folder and Note hooks to respect lock status. 60f315e
 - [x] Task: Finalize 'papery' UI feedback for locked folders (e.g., lock icon, blurred content). 720042c
-- [ ] Task: Conductor - User Manual Verification 'Content Protection' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Content Protection' (Protocol in workflow.md) 189f510
