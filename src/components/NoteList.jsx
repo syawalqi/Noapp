@@ -7,7 +7,7 @@ import UnlockFolderDialog from './UnlockFolderDialog';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
 
-const NoteList = () => {
+const NoteList = ({ style }) => {
   const { activeFolderId, activeNoteId, setActiveNoteId, activeTagId, unlockedFolderIds, unlockFolder } = useUI();
   const { notes, addNote } = useNotes(activeFolderId, activeTagId);
   
@@ -42,8 +42,11 @@ const NoteList = () => {
   }
 
   return (
-    <div className="w-80 h-screen bg-transparent border-r border-paper-200 flex flex-col">
-      <div className="p-4 border-b border-paper-200 flex justify-between items-center">
+    <div 
+      className="h-screen bg-transparent border-r border-paper-200 flex flex-col shrink-0 overflow-hidden"
+      style={{ width: '20rem', ...style }}
+    >
+      <div className="layout-header justify-between">
         <h2 className="text-sm font-semibold text-paper-700 uppercase tracking-wider truncate mr-4">
           {activeTag ? `# ${activeTag.name}` : (activeFolder?.name || 'Notes')}
         </h2>

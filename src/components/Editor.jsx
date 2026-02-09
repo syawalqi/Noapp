@@ -3,7 +3,22 @@ import { useUI } from '../context/UIContext';
 import { useNotes } from '../hooks/useNotes';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Save, Trash2, Maximize2, Minimize2, Lock, Download, Layers, Eye, Edit3, X } from 'lucide-react';
+import { 
+  Trash2, 
+  Maximize2, 
+  Minimize2, 
+  Lock, 
+  Download, 
+  Eye, 
+  Edit3, 
+  X, 
+  Bold, 
+  Italic, 
+  List, 
+  Link, 
+  Type,
+  Layers
+} from 'lucide-react';
 import { downloadFile } from '../utils/file';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -11,13 +26,19 @@ import TagInput from './TagInput';
 import { useTags } from '../hooks/useTags';
 
 const Editor = () => {
-  const { activeNoteId, setActiveNoteId, isFocusMode, setIsFocusMode, unlockedFolderIds, paperType, setPaperType } = useUI();
+  const { 
+    activeNoteId, 
+    setActiveNoteId, 
+    isFocusMode, 
+    setIsFocusMode, 
+    unlockedFolderIds, 
+    paperType, 
+    setPaperType 
+  } = useUI();
   const { updateNote, deleteNote } = useNotes();
-  const { getTagsByIds } = useTags();
+  const textareaRef = useRef(null);
   const [isPreview, setIsPreview] = useState(false);
-  const [noteTags, setNoteTags] = useState([]);
   
-  // Use live query to get current note and its folder status
   const noteData = useLiveQuery(
     async () => {
       if (!activeNoteId) return null;
@@ -38,7 +59,6 @@ const Editor = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  // Sync local state with DB
   useEffect(() => {
     if (note && !isLocked) {
       setTitle(note.title);
@@ -58,6 +78,35 @@ const Editor = () => {
     const newContent = e.target.value;
     setContent(newContent);
     updateNote(activeNoteId, { content: newContent });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      switch (e.key.toLowerCase()) {
+        case 'b': e.preventDefault(); formatText('**'); break;
+        case 'i': e.preventDefault(); formatText('*'); break;
+        case 'k': e.preventDefault(); formatText('[', '](url)'); break;
+        default: break;
+      }
+    }
+  };
+
+  const formatText = (prefix, suffix = prefix) => {
+    const el = textareaRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const text = el.value;
+    const before = text.substring(0, start);
+    const selection = text.substring(start, end);
+    const after = text.substring(end);
+    const newContent = `${before}${prefix}${selection}${suffix}${after}`;
+    setContent(newContent);
+    updateNote(activeNoteId, { content: newContent });
+    setTimeout(() => {
+      el.focus();
+      el.setSelectionRange(start + prefix.length, end + prefix.length);
+    }, 0);
   };
 
   const handleAddTag = async (tagId) => {
@@ -121,20 +170,42 @@ const Editor = () => {
     { id: 'dotted', label: 'Dotted Paper', class: 'paper-dotted' },
   ];
 
+  const headerPadding = isFocusMode ? 'px-4 md:px-32 lg:px-64' : 'px-8';
+
   return (
-    <div className={`flex-1 flex flex-col bg-transparent transition-all duration-500 paper-grain ${isFocusMode ? 'px-4 md:px-32 lg:px-64' : 'px-8'}`}>
-      {/* Editor Toolbar */}
-      <div className="py-4 flex justify-between items-center border-b border-paper-100 mb-8">
-        <div className="flex items-center space-x-4">
-          <div className="text-xs text-paper-400 font-serif italic mr-2 hidden sm:block">
-            {folder?.name}
+    <div className="flex-1 flex flex-col bg-transparent paper-grain h-screen overflow-hidden relative">
+      {/* Editor Toolbar - Dynamic wrapping */}
+      <div className={`layout-header h-auto py-3 gap-y-4 flex-wrap justify-between border-b border-paper-100 bg-paper-100/80 backdrop-blur-md sticky top-0 z-30 shrink-0 ${headerPadding}`}>
+        
+        {/* Tool Groups */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+          {/* Metadata & Tagging */}
+          <div className="flex items-center space-x-3">
+            <div className="text-[10px] uppercase font-bold tracking-widest text-paper-400 font-serif italic hidden md:block truncate max-w-[100px]">
+              {folder?.name}
+            </div>
+            <TagInput 
+              activeTagIds={note.tagIds || []} 
+              onAddTag={handleAddTag} 
+              onRemoveTag={handleRemoveTag} 
+            />
           </div>
-          <TagInput 
-            activeTagIds={note.tagIds || []} 
-            onAddTag={handleAddTag} 
-            onRemoveTag={handleRemoveTag} 
-          />
-          <div className="flex items-center space-x-1 bg-paper-100 p-1 rounded-sm border border-paper-200">
+
+          <div className="hidden sm:block w-px h-4 bg-paper-200" />
+
+          {/* Formatting */}
+          <div className="flex items-center space-x-1 bg-paper-50 p-1 rounded-sm border border-paper-200 shadow-sm">
+            <button onClick={() => formatText('**')} className="p-1.5 hover:bg-paper-200 rounded-sm text-paper-600" title="Bold"><Bold size={14} /></button>
+            <button onClick={() => formatText('*')} className="p-1.5 hover:bg-paper-200 rounded-sm text-paper-600" title="Italic"><Italic size={14} /></button>
+            <button onClick={() => formatText('### ', '')} className="p-1.5 hover:bg-paper-200 rounded-sm text-paper-600" title="Heading"><Type size={14} /></button>
+            <button onClick={() => formatText('\n- ', '')} className="p-1.5 hover:bg-paper-200 rounded-sm text-paper-600" title="List"><List size={14} /></button>
+            <button onClick={() => formatText('[', '](url)')} className="p-1.5 hover:bg-paper-200 rounded-sm text-paper-600" title="Link"><Link size={14} /></button>
+          </div>
+
+          <div className="hidden sm:block w-px h-4 bg-paper-200" />
+
+          {/* Paper Selection */}
+          <div className="flex items-center space-x-1 bg-paper-50 p-1 rounded-sm border border-paper-200 shadow-sm">
             {paperOptions.map((option) => (
               <button
                 key={option.id}
@@ -142,7 +213,7 @@ const Editor = () => {
                 title={option.label}
                 className={`w-6 h-6 rounded-sm border transition-all flex items-center justify-center overflow-hidden ${
                   paperType === option.id 
-                    ? 'border-paper-700 ring-1 ring-paper-700 shadow-sm' 
+                    ? 'border-paper-700 ring-1 ring-paper-700' 
                     : 'border-paper-200 hover:border-paper-400'
                 } bg-paper-50 ${option.class}`}
                 style={option.id !== 'plain' ? { backgroundSize: '4px 4px' } : {}}
@@ -152,93 +223,71 @@ const Editor = () => {
             ))}
           </div>
         </div>
+
+        {/* View & Actions */}
         <div className="flex items-center space-x-2">
           <button 
             onClick={() => setIsPreview(!isPreview)}
-            className={`p-2 rounded-sm transition-colors flex items-center text-xs font-bold uppercase tracking-wider ${
-              isPreview ? 'bg-paper-800 text-paper-50' : 'hover:bg-paper-200 text-paper-700'
+            className={`px-3 py-1.5 rounded-sm transition-colors flex items-center text-[10px] font-bold uppercase tracking-wider border ${
+              isPreview 
+                ? 'bg-paper-800 text-paper-50 border-paper-800 shadow-md' 
+                : 'hover:bg-paper-200 text-paper-700 border-paper-200'
             }`}
-            title={isPreview ? "Edit Note" : "Preview Markdown"}
           >
-            {isPreview ? <Edit3 size={16} className="mr-2" /> : <Eye size={16} className="mr-2" />}
-            {isPreview ? 'Edit' : 'Preview'}
+            {isPreview ? <Edit3 size={14} className="mr-2" /> : <Eye size={14} className="mr-2" />}
+            <span>{isPreview ? 'Edit' : 'Preview'}</span>
           </button>
-          <div className="w-px h-4 bg-paper-200 mx-2" />
-          <button 
-            onClick={() => setIsFocusMode(!isFocusMode)}
-            className="p-2 hover:bg-paper-200 rounded-sm text-paper-700 transition-colors"
-            title={isFocusMode ? "Exit Focus Mode" : "Enter Focus Mode"}
-          >
+          <div className="w-px h-4 bg-paper-200 mx-1" />
+          <button onClick={() => setIsFocusMode(!isFocusMode)} className="p-2 hover:bg-paper-200 rounded-sm text-paper-700" title="Focus Mode">
             {isFocusMode ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
           </button>
-        </div>
-        <div className="flex items-center space-x-2">
-          <button 
-            onClick={handleExport}
-            className="p-2 hover:bg-paper-200 rounded-sm text-paper-700 transition-colors"
-            title="Export as Markdown"
-          >
-            <Download size={18} />
-          </button>
-          <button 
-            onClick={handleDelete}
-            className="p-2 hover:bg-red-50 hover:text-red-600 rounded-sm text-paper-300 transition-colors"
-            title="Delete Note"
-          >
-            <Trash2 size={18} />
-          </button>
+          <button onClick={handleExport} className="p-2 hover:bg-paper-200 rounded-sm text-paper-700" title="Export"><Download size={18} /></button>
+          <button onClick={handleDelete} className="p-2 hover:bg-red-50 hover:text-red-600 rounded-sm text-paper-300 transition-colors" title="Delete"><Trash2 size={18} /></button>
         </div>
       </div>
 
-      {/* Tags Display */}
-      {tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-6">
-          {tags.map(tag => (
-            <span 
-              key={tag.id}
-              className="group flex items-center text-[10px] uppercase font-bold px-2 py-1 rounded-sm border border-paper-200 bg-paper-100/50 transition-all hover:bg-paper-100"
-              style={{ color: tag.color, borderColor: tag.color + '40' }}
-            >
-              {tag.name}
-              <button 
-                onClick={() => handleRemoveTag(tag.id)}
-                className="ml-2 p-0.5 hover:bg-paper-200 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <X size={10} />
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
+      {/* Inputs - Scrollable Area */}
+      <div key={activeNoteId} className="flex-1 overflow-y-auto pt-12 pb-24">
+        <div className={`max-w-4xl w-full mx-auto relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500 ${headerPadding}`}>
+          {/* Tags display */}
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-8">
+              {tags.map(tag => (
+                <span key={tag.id} className="group flex items-center text-[10px] uppercase font-bold px-2 py-1 rounded-sm border border-paper-200 bg-paper-50 shadow-sm" style={{ color: tag.color, borderColor: tag.color + '40' }}>
+                  {tag.name}
+                  <button onClick={() => handleRemoveTag(tag.id)} className="ml-2 p-0.5 hover:bg-paper-200 rounded-full opacity-0 group-hover:opacity-100"><X size={10} /></button>
+                </span>
+              ))}
+            </div>
+          )}
 
-      {/* Inputs */}
-      <div key={activeNoteId} className="flex-1 flex flex-col max-w-4xl w-full mx-auto relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
-        <input
-          type="text"
-          value={title}
-          onChange={handleTitleChange}
-          placeholder="Note Title"
-          className="text-4xl font-serif font-bold bg-transparent border-none outline-none mb-6 placeholder-paper-200 text-paper-900"
-        />
-        
-        {isPreview ? (
-          <div className={`flex-1 prose prose-paper max-w-none font-sans text-lg leading-relaxed text-paper-800 overflow-y-auto ${paperClasses[paperType]}`}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {content}
-            </ReactMarkdown>
-          </div>
-        ) : (
-          <textarea
-            value={content}
-            onChange={handleContentChange}
-            placeholder="Start writing..."
-            className={`flex-1 bg-transparent border-none outline-none resize-none font-sans text-lg leading-relaxed placeholder-paper-200 text-paper-800 ${paperClasses[paperType]}`}
+          <input
+            type="text"
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="Note Title"
+            className="text-4xl font-serif font-bold bg-transparent border-none outline-none mb-8 placeholder-paper-200 text-paper-900 w-full"
           />
-        )}
+          
+          {isPreview ? (
+            <div className={`prose prose-paper max-w-none font-sans text-lg leading-relaxed text-paper-800 ${paperClasses[paperType]}`}>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+            </div>
+          ) : (
+            <textarea
+              ref={textareaRef}
+              value={content}
+              onChange={handleContentChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Start writing..."
+              className={`w-full min-h-[60vh] bg-transparent border-none outline-none resize-none font-sans text-lg leading-relaxed placeholder-paper-200 text-paper-800 ${paperClasses[paperType]}`}
+            />
+          )}
+        </div>
       </div>
 
       {/* Footer Info */}
-      <div className="py-4 text-xs text-paper-300 font-sans border-t border-paper-100 flex justify-between">
+      <div className={`py-3 text-[10px] uppercase tracking-widest font-bold text-paper-300 border-t border-paper-100 flex justify-between bg-paper-100/30 shrink-0 ${headerPadding}`}>
         <span>Characters: {content.length}</span>
         <span>Last updated: {new Date(note.updatedAt).toLocaleString()}</span>
       </div>

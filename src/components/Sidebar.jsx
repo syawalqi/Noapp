@@ -20,7 +20,7 @@ import {
 
 import LockFolderModal from './LockFolderModal';
 
-const Sidebar = () => {
+const Sidebar = ({ style }) => {
   const { 
     activeModule, 
     setActiveModule, 
@@ -58,14 +58,17 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64 h-screen bg-paper-100 border-r border-paper-200 flex flex-col">
+    <div 
+      className="h-screen bg-paper-100 border-r border-paper-200 flex flex-col shrink-0 overflow-hidden"
+      style={{ width: '16rem', ...style }}
+    >
       {/* App Logo/Header */}
-      <div className="p-6">
+      <div className="layout-header">
         <h1 className="text-2xl font-serif font-bold text-paper-800 tracking-tight">NoApp</h1>
       </div>
 
       {/* Main Navigation */}
-      <nav className="px-4 space-y-1">
+      <nav className="px-4 py-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeModule === item.id;
